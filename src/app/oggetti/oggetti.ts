@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Backend, Oggetto } from '../backend';
-import { inject } from '@angular/core';
+import { inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule} from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -17,9 +17,9 @@ import { MatDividerModule } from '@angular/material/divider';
 export class Oggetti {
   listaoggetti: Oggetto[] = [];
 
-  nomeoggetto = '';
-  descrizione = '';
-  fissomobile = 'M';
+  newnomeoggetto = '';
+  newdescrizione = '';
+  newfissomobile = 'M';
     listafissomobile: { id: string, nome: string }[] = [
     {id: 'F', nome: 'Fisso'} ,
     {id: 'M', nome: 'Mobile'} ,
@@ -27,6 +27,7 @@ export class Oggetti {
   ];
 
   private backend = inject(Backend);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor() {}
 
@@ -35,6 +36,10 @@ export class Oggetti {
       (data: any) => {
         this.listaoggetti = data.oggetti;
         console.log(this.listaoggetti);
+        for (let item of this.listaoggetti) {
+         console.log("id", item.IDoggetto, "nome", item.nomeoggetto);
+        }
+        this.cdr.detectChanges();
       }
     );
   }
