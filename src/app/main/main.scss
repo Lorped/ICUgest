@@ -1,0 +1,12 @@
+.container {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  width: 100%;
+}
+mat-card {
+  padding: 3em;
+}
