@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Backend, Oggetto } from '../backend';
+import { Backend, Oggetto, Condizione } from '../backend';
 import { inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -7,15 +7,35 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule} from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+
+
+interface RigaBase {
+  tipo: 'oggetto';
+  oggetto: Oggetto;
+}
+interface RigaCondizione {
+  tipo: 'condizione';
+  parentID: number;
+  dettaglio: Condizione;
+}
+
+type Riga = | RigaBase | RigaCondizione;
 
 @Component({
-  imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule ],
+  imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule ],
   selector: 'app-oggetti',
   styleUrl: './oggetti.scss',
   templateUrl: './oggetti.html',
 })
 export class Oggetti {
   listaoggetti: Oggetto[] = [];
+  displayedColumns: string[] = ['IDoggetto', 'Barcode', 'Nomeoggetto', 'Descrizione', 'Fissomobile', 'Cancella'];
+  detailColumns: string[] = ['Dummy', 'Tipocond', 'Valcond', 'descrX'];
+
+  datasource = new MatTableDataSource<Riga>( this.creaRighe(this.listaoggetti) ); 
+
 
   newnomeoggetto = '';
   newdescrizione = '';
@@ -35,13 +55,33 @@ export class Oggetti {
     this.backend.listoggetti().subscribe(
       (data: any) => {
         this.listaoggetti = data.oggetti;
-        console.log(this.listaoggetti);
-        for (let item of this.listaoggetti) {
-         console.log("id", item.IDoggetto, "nome", item.nomeoggetto);
-        }
+        this.datasource.data = this.creaRighe(this.listaoggetti);
         this.cdr.detectChanges();
       }
     );
+  }
+
+  creaRighe(listaoggetti: Oggetto[]): Riga[] {
+    return listaoggetti.flatMap((oggetto): Riga[] => [
+      {
+        tipo: 'oggetto',
+        oggetto
+      },
+      ...oggetto.condizioni.map((condizioni): Riga => ({
+        tipo: 'condizione',
+        parentID: oggetto.IDoggetto,
+        dettaglio: condizioni
+      })) 
+    ]);
+  }
+
+
+  isOggetto (_index: number, row: Riga){
+    return row.tipo === 'oggetto';
+  }
+
+  isCondizione (_index: number, row: Riga){
+    return row.tipo === 'condizione';
   }
 
 

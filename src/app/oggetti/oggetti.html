@@ -46,6 +46,54 @@
 
           <div><hr></div>
 
+          <table mat-table [dataSource]="datasource">
+            <ng-container matColumnDef="IDoggetto">
+              <th mat-header-cell *matHeaderCellDef> IDoggetto</th>
+              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.IDoggetto}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Barcode">
+              <th mat-header-cell *matHeaderCellDef> Barcode </th>
+              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.barcode}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Nomeoggetto">
+              <th mat-header-cell *matHeaderCellDef> Nome Oggetto </th>
+              <td mat-cell *matCellDef="let obj"> <button matButton="filled" color="accent"  (click)="modifica(obj.oggetto.IDoggetto, obj.oggetto)">{{obj.oggetto.nomeoggetto}}</button></td>
+            </ng-container>
+            <ng-container matColumnDef="Descrizione">
+              <th mat-header-cell *matHeaderCellDef> Descrizione </th>
+              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.descrizione}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Fissomobile">
+              <th mat-header-cell *matHeaderCellDef> Tipo </th>
+              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.fissomobile}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Cancella">
+              <th mat-header-cell *matHeaderCellDef> Cancella </th>
+              <td mat-cell *matCellDef="let obj"> <button matButton="filled" color="warn"  (click)="cancellaoggetto(obj.oggetto.IDoggetto)">Cancella</button> </td>
+            </ng-container>
+
+            <!----- righe condizioni -->
+
+            <ng-container matColumnDef="Dummy">
+              <td mat-cell *matCellDef="let obj">  &nbsp; </td>
+            </ng-container>
+            <ng-container matColumnDef="Tipocond">
+              <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.tipocond}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Valcond">
+              <td mat-cell *matCellDef="let obj"> Min.{{obj.dettaglio?.valcond}} </td>
+            </ng-container>
+            <ng-container matColumnDef="descrX">
+              <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.descrX}} </td>
+            </ng-container>                          
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns; when: isOggetto" ></tr>
+              <tr mat-row *matRowDef="let row; columns: detailColumns; when: isCondizione" ></tr>
+          </table>
+
+          <!--
           <div class="columns">
             <div class="column is-1 bold">
               ID.
@@ -156,7 +204,9 @@
             </div>
           }
 
-          <p>
+          -->
+
+          
 
           </mat-card-content>
         </mat-card>
