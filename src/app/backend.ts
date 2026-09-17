@@ -47,6 +47,7 @@ export class Oggetto {
     public domanda = '';
     public r1 = '';
     public r2 = '';
+    public adddisciplina = ''; // disciplina incrementata dall'oggetto
     public condizioni: Condizione[] = [];
     public condizioni2: Condizione[] = [];
     public paired = new Paired();

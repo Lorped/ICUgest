@@ -32,7 +32,7 @@ type Riga = | RigaBase | RigaCondizione;
 })
 export class Oggetti {
   listaoggetti: Oggetto[] = [];
-  displayedColumns: string[] = ['IDoggetto', 'Barcode', 'Nomeoggetto', 'Descrizione', 'Fissomobile', 'Cancella'];
+  displayedColumns: string[] = ['IDoggetto', 'Barcode', 'Nomeoggetto', 'Descrizione', 'Fissomobile', 'Incremento', 'Cancella'];
   detailColumns: string[] = ['Dummy', 'Tipocond', 'Valcond', 'descrX'];
 
   datasource = new MatTableDataSource<Riga>( this.creaRighe(this.listaoggetti) ); 
@@ -57,6 +57,8 @@ export class Oggetti {
       (data: any) => {
         this.listaoggetti = data.oggetti;
         this.datasource.data = this.creaRighe(this.listaoggetti);
+        console.log(this.datasource.data);
+
         this.cdr.detectChanges();
       }
     );
