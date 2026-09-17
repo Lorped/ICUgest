@@ -1,217 +1,163 @@
-<div class="container" style="width: 80%; margin-top: 1em;">
+<div class="container" >
 
-    <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            Gestione Oggetti
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Gestione Oggetti
+      </mat-card-title>
+    </mat-card-header>
+      
+    <mat-card-content>
 
-            <mat-divider></mat-divider>
-
-
-        <div class="columns">
-            <div class="column is-3">
-              <mat-form-field appearance="fill">
-                <mat-label>Nome</mat-label>
-                <input matInput [(ngModel)]="newnomeoggetto">
-              </mat-form-field>
-            </div>
-            <div class="column is-4">
-              <mat-form-field appearance="fill" class="full">
-                <mat-label>Descrizione</mat-label>
-                <textarea matInput [(ngModel)]="newdescrizione"></textarea>
-              </mat-form-field>
-            </div>
-            <div class="column is-3">
-              <mat-radio-group [(ngModel)]="newfissomobile"  class="example-radio-group">
-                @for (tipo of listafissomobile; track tipo) {
-                  <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
-                    {{tipo.nome}}
-                  </mat-radio-button>
-                }
-              </mat-radio-group>
-            </div>
-            <div class="column is-2">
-              <button  mat-raised-button [disabled]="newnomeoggetto==''" class="large" color="primary" (click)="aggiungioggetto()" style="width: 100%;">Aggiungi</button>
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class=column>
-              <button  mat-raised-button class="large" color="primary" (click)="stampa()" style="width: 100%;">Stampa Oggetti</button>
-            </div>
-          </div>
-
-          <div><hr></div>
-
-          <table mat-table [dataSource]="datasource">
-            <ng-container matColumnDef="IDoggetto">
-              <th mat-header-cell *matHeaderCellDef> IDoggetto</th>
-              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.IDoggetto}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Barcode">
-              <th mat-header-cell *matHeaderCellDef> Barcode </th>
-              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.barcode}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Nomeoggetto">
-              <th mat-header-cell *matHeaderCellDef> Nome Oggetto </th>
-              <td mat-cell *matCellDef="let obj"> <button matButton="filled" color="accent"  (click)="modifica(obj.oggetto.IDoggetto, obj.oggetto)">{{obj.oggetto.nomeoggetto}}</button></td>
-            </ng-container>
-            <ng-container matColumnDef="Descrizione">
-              <th mat-header-cell *matHeaderCellDef> Descrizione </th>
-              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.descrizione}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Fissomobile">
-              <th mat-header-cell *matHeaderCellDef> Tipo </th>
-              <td mat-cell *matCellDef="let obj"> {{obj.oggetto.fissomobile}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Cancella">
-              <th mat-header-cell *matHeaderCellDef> Cancella </th>
-              <td mat-cell *matCellDef="let obj"> <button matButton="filled" color="warn"  (click)="cancellaoggetto(obj.oggetto.IDoggetto)">Cancella</button> </td>
-            </ng-container>
-
-            <!----- righe condizioni -->
-
-            <ng-container matColumnDef="Dummy">
-              <td mat-cell *matCellDef="let obj">  &nbsp; </td>
-            </ng-container>
-            <ng-container matColumnDef="Tipocond">
-              <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.tipocond}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Valcond">
-              <td mat-cell *matCellDef="let obj"> Min.{{obj.dettaglio?.valcond}} </td>
-            </ng-container>
-            <ng-container matColumnDef="descrX">
-              <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.descrX}} </td>
-            </ng-container>                          
+      <mat-divider></mat-divider>
 
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns; when: isOggetto" ></tr>
-              <tr mat-row *matRowDef="let row; columns: detailColumns; when: isCondizione" ></tr>
-          </table>
-
-          <!--
-          <div class="columns">
-            <div class="column is-1 bold">
-              ID.
-            </div>
-            <div class="column is-2 bold">
-              Barcode
-            </div>
-            <div class="column is-2 bold">
-              Nome Oggetto
-            </div>
-            <div class="column is-4 bold">
-              Descrizione
-            </div>
-            <div class="column is-1 bold">
-              Tipo
-            </div>
-            <div class="column is-1 bold">
-              &nbsp;
-            </div>
-          </div>
-          @for (item of listaoggetti; track item) {
-            <div class="columns">
-              <div class="column">
-                <div class="columns">
-                  <div class="column is-1">
-                    {{item.IDoggetto}}
-                  </div>
-                  <div class="column is-2">
-                    {{item.barcode}}
-                  </div>
-                  <div class="column is-2">
-                    <button matButton="filled" color="accent"  (click)="modifica(item.IDoggetto, item)">{{item.nomeoggetto}}</button>                   
-                  </div>
-                  <div class="column is-4">
-                    {{item.descrizione}}
-                  </div>
-                  <div class="column is-1">
-                    {{item.fissomobile}}
-                  </div>
-                  <div class="column is-1">
-                    <button matButton="filled" color="warn"  (click)="cancellaoggetto(item.IDoggetto)">Cancella</button>
-                  </div>
-                </div>
-                @for (cond of item.condizioni; track cond) {
-                  <div class="columns">
-                    <div class="column is-1">
-                      &nbsp;
-                    </div>
-                    <div class="column is-2">
-                      {{cond.tipocond}}
-                    </div>
-                    <div class="column is-2">
-                      Min. {{cond.valcond}}
-                    </div>
-                    <div class="column is-6">
-                      {{cond.descrX}}
-                    </div>
-                  </div>
-                }
-                @if (item.ifdomanda==1) {
-                  <div class="columns">
-                    <div class="column is-1">
-                      &nbsp;
-                    </div>
-                    <div class="column is-2">
-                      {{item.domanda}}
-                    </div>
-                    <div class="column is-8">
-                      <span class="green">SI:</span> {{item.r1}}<br>
-                      <span class="red">NO:</span> {{item.r2}}<br>
-                    </div>
-                  </div>
-                }
-                @for (cond of item.condizioni2; track cond) {
-                  <div class="columns">
-                    <div class="column is-1">
-                      <span (class)="{'red': cond.risp=='N' , 'green': cond.risp=='S'}"> {{cond.risp}} </span>
-                    </div>
-                    <div class="column is-2">
-                      {{cond.tipocond}}
-                    </div>
-                    <div class="column is-2">
-                      Min. {{cond.valcond}}
-                    </div>
-                    <div class="column is-6">
-                      {{cond.descrX}}
-                    </div>
-                  </div>
-                }
-                @if (item.paired.idpaired!=0) {
-                  <div class="columns">
-                    <div class="column is-1">
-                      &nbsp;
-                    </div>
-                    <div class="column is-2">
-                      Paired
-                    </div>
-                    <div class="column is-2">
-                      <span class="blue"> [ ID {{item.paired.idpaired}} - {{item.paired.nomepaired}} ]</span>
-                    </div>
-                    <div class="column is-6">
-                      {{item.paired.descpaired}}
-                    </div>
-                  </div>
-                }
-              </div>
-              <mat-divider></mat-divider>
-            </div>
-          }
-
-          -->
-
-          
-
-          </mat-card-content>
-        </mat-card>
+      <form #oggettoForm="ngForm" (ngSubmit)="aggiungioggetto()">
+        <mat-grid-list cols="6" rowHeight="10em">
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" style="width: 90%;">
+              <mat-label>Nome</mat-label>
+              <input matInput [(ngModel)]="newnomeoggetto" name="nomeoggetto" required>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <mat-form-field appearance="fill" style="width: 90%;">
+              <mat-label>Descrizione</mat-label>
+              <textarea matInput [(ngModel)]="newdescrizione" name="descrizione" required></textarea>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-radio-group [(ngModel)]="newfissomobile" name="fissomobile" required class="example-radio-group">
+              @for (tipo of listafissomobile; track tipo) {
+                <mat-radio-button class="example-radio-button" [value]="tipo.id">
+                  {{tipo.nome}}
+                </mat-radio-button>
+              }
+            </mat-radio-group>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <button mat-raised-button type="submit" [disabled]="oggettoForm.invalid" class="large" color="primary" style="width: 100%;">Aggiungi</button>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
 
 
 
+      <div>
+          <button  mat-raised-button class="large" color="primary" (click)="stampa()" style="width: 100%;">Stampa Oggetti</button>
       </div>
+
+      <mat-divider></mat-divider>
+
+      <table mat-table [dataSource]="datasource">
+        <ng-container matColumnDef="IDoggetto">
+          <th mat-header-cell *matHeaderCellDef> IDoggetto</th>
+          <td mat-cell *matCellDef="let obj"> {{obj.oggetto.IDoggetto}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Barcode">
+          <th mat-header-cell *matHeaderCellDef> Barcode </th>
+          <td mat-cell *matCellDef="let obj"> {{obj.oggetto.barcode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Nomeoggetto">
+          <th mat-header-cell *matHeaderCellDef> Nome Oggetto </th>
+          <td mat-cell *matCellDef="let obj"> <button matButton="filled" color="accent"  (click)="modifica(obj.oggetto.IDoggetto, obj.oggetto)">{{obj.oggetto.nomeoggetto}}</button></td>
+        </ng-container>
+        <ng-container matColumnDef="Descrizione">
+          <th mat-header-cell *matHeaderCellDef> Descrizione </th>
+          <td mat-cell *matCellDef="let obj"> {{obj.oggetto.descrizione}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Fissomobile">
+          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+          <td mat-cell *matCellDef="let obj"> {{obj.oggetto.fissomobile}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Cancella">
+          <th mat-header-cell *matHeaderCellDef> Cancella </th>
+          <td mat-cell *matCellDef="let obj"> <button matButton="filled" color="warn"  (click)="cancellaoggetto(obj.oggetto.IDoggetto)">Cancella</button> </td>
+        </ng-container>
+
+        <!----- righe condizioni -->
+
+        <ng-container matColumnDef="Dummy">
+          <td mat-cell *matCellDef="let obj">  &nbsp; </td>
+        </ng-container>
+        <ng-container matColumnDef="Tipocond">
+          <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.tipocond}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Valcond">
+          <td mat-cell *matCellDef="let obj"> Min.{{obj.dettaglio?.valcond}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descrX">
+          <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.descrX}} </td>
+        </ng-container>                          
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; when: isOggetto" ></tr>
+          <tr mat-row *matRowDef="let row; columns: detailColumns; when: isCondizione" ></tr>
+      </table>
+
+            <!--
+            
+
+                  @if (item.ifdomanda==1) {
+                    <div class="columns">
+                      <div class="column is-1">
+                        &nbsp;
+                      </div>
+                      <div class="column is-2">
+                        {{item.domanda}}
+                      </div>
+                      <div class="column is-8">
+                        <span class="green">SI:</span> {{item.r1}}<br>
+                        <span class="red">NO:</span> {{item.r2}}<br>
+                      </div>
+                    </div>
+                  }
+                  @for (cond of item.condizioni2; track cond) {
+                    <div class="columns">
+                      <div class="column is-1">
+                        <span (class)="{'red': cond.risp=='N' , 'green': cond.risp=='S'}"> {{cond.risp}} </span>
+                      </div>
+                      <div class="column is-2">
+                        {{cond.tipocond}}
+                      </div>
+                      <div class="column is-2">
+                        Min. {{cond.valcond}}
+                      </div>
+                      <div class="column is-6">
+                        {{cond.descrX}}
+                      </div>
+                    </div>
+                  }
+                  @if (item.paired.idpaired!=0) {
+                    <div class="columns">
+                      <div class="column is-1">
+                        &nbsp;
+                      </div>
+                      <div class="column is-2">
+                        Paired
+                      </div>
+                      <div class="column is-2">
+                        <span class="blue"> [ ID {{item.paired.idpaired}} - {{item.paired.nomepaired}} ]</span>
+                      </div>
+                      <div class="column is-6">
+                        {{item.paired.descpaired}}
+                      </div>
+                    </div>
+                  }
+                </div>
+                <mat-divider></mat-divider>
+              </div>
+            }
+
+            -->
+
+            
+
+    </mat-card-content>
+  </mat-card>
+
+
+
+</div>
 

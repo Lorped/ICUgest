@@ -9,6 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 interface RigaBase {
@@ -24,7 +25,7 @@ interface RigaCondizione {
 type Riga = | RigaBase | RigaCondizione;
 
 @Component({
-  imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule ],
+  imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule, MatGridListModule ],
   selector: 'app-oggetti',
   styleUrl: './oggetti.scss',
   templateUrl: './oggetti.html',
