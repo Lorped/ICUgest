@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatIconModule} from '@angular/material/icon';
 
 
 interface RigaBase {
@@ -21,11 +22,24 @@ interface RigaCondizione {
   parentID: number;
   dettaglio: Condizione;
 }
+interface RigaRisposta {
+  tipo: 'risposta';
+  parentID: number;
+  domanda: string;
+  si: string;
+  no: string; 
+}
+interface RigaPaired {
+  tipo: 'paired';
+  parentID: number;
+  oggettoPaired: string;
+  descrizionePaired: string;
+}
 
-type Riga = | RigaBase | RigaCondizione;
+type Riga = | RigaBase | RigaCondizione| RigaRisposta | RigaPaired;
 
 @Component({
-  imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule, MatGridListModule ],
+  imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule, MatGridListModule, MatIconModule ],
   selector: 'app-oggetti',
   styleUrl: './oggetti.scss',
   templateUrl: './oggetti.html',
@@ -34,6 +48,9 @@ export class Oggetti {
   listaoggetti: Oggetto[] = [];
   displayedColumns: string[] = ['IDoggetto', 'Barcode', 'Nomeoggetto', 'Descrizione', 'Fissomobile', 'Incremento', 'Cancella'];
   detailColumns: string[] = ['Dummy', 'Tipocond', 'Valcond', 'descrX'];
+  rispostaColumns: string[] = ['Dummy', 'Domanda', 'Si', 'No'];
+  pairedColumns: string[] = ['Dummy', 'OggettoPaired', 'DescrizionePaired'];
+  
 
   datasource = new MatTableDataSource<Riga>( this.creaRighe(this.listaoggetti) ); 
 
@@ -70,11 +87,24 @@ export class Oggetti {
         tipo: 'oggetto',
         oggetto
       },
+      ...((oggetto.domanda ?? '').trim() !== '' ? [{
+        tipo: 'risposta' as const,
+        parentID: oggetto.IDoggetto,
+        domanda: oggetto.domanda,
+        si: oggetto.r1,
+        no: oggetto.r2
+      }] : []),
+      ...((oggetto.paired.idpaired !== 0 ) ? [{
+        tipo: 'paired' as const,
+        parentID: oggetto.IDoggetto,
+        oggettoPaired: oggetto.paired.nomepaired,
+        descrizionePaired: oggetto.paired.descpaired
+      }] : []),
       ...oggetto.condizioni.map((condizioni): Riga => ({
         tipo: 'condizione',
         parentID: oggetto.IDoggetto,
         dettaglio: condizioni
-      })) 
+      }))
     ]);
   }
 
@@ -85,6 +115,12 @@ export class Oggetti {
 
   isCondizione (_index: number, row: Riga){
     return row.tipo === 'condizione';
+  }
+  isRisposta (_index: number, row: Riga){
+    return row.tipo === 'risposta';
+  }
+  isPaired (_index: number, row: Riga){
+    return row.tipo === 'paired';
   }
 
 

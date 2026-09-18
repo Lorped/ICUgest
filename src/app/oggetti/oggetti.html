@@ -71,7 +71,7 @@
           <td mat-cell *matCellDef="let obj"> {{obj.oggetto.fissomobile}} </td> 
         </ng-container>
         <ng-container matColumnDef="Incremento">
-          <th mat-header-cell *matHeaderCellDef> Adddisciplina </th>
+          <th mat-header-cell *matHeaderCellDef> Incr.Disciplina </th>
           <td mat-cell *matCellDef="let obj"> {{obj.oggetto.adddisciplina}}   @if(obj.oggetto.adddisciplina != undefined){ +1 } </td>
         </ng-container>
         <ng-container matColumnDef="Cancella">
@@ -94,10 +94,34 @@
           <td mat-cell *matCellDef="let obj">  {{obj.dettaglio?.descrX}} </td>
         </ng-container>                          
 
+        <!----- righe risposte -->
+
+        <ng-container matColumnDef="Domanda">
+          <td mat-cell *matCellDef="let obj"> <mat-icon fontIcon="live_help" ></mat-icon> {{obj.domanda}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Si">
+          <td mat-cell *matCellDef="let obj"> <mat-icon fontIcon="thumb_up" class="green-icon"></mat-icon> {{obj.si}} </td>
+        </ng-container>
+        <ng-container matColumnDef="No">
+          <td mat-cell *matCellDef="let obj"> <mat-icon fontIcon="thumb_down" color="warn"></mat-icon> {{obj.no}} </td>
+        </ng-container>
+
+        <!----- righe paired -->
+
+        <ng-container matColumnDef="OggettoPaired">
+          <th mat-header-cell *matHeaderCellDef> Oggetto Paired </th>
+          <td mat-cell *matCellDef="let obj"><mat-icon fontIcon="compare_arrows" color="warn"></mat-icon> {{obj.oggettoPaired}}</td>
+        </ng-container>
+        <ng-container matColumnDef="DescrizionePaired">
+          <th mat-header-cell *matHeaderCellDef> Descrizione Paired </th>
+          <td mat-cell *matCellDef="let obj">  {{obj.descrizionePaired}} </td>
+        </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns; when: isOggetto" ></tr>
           <tr mat-row *matRowDef="let row; columns: detailColumns; when: isCondizione" ></tr>
+          <tr mat-row *matRowDef="let row; columns: rispostaColumns; when: isRisposta" ></tr>
+          <tr mat-row *matRowDef="let row; columns: pairedColumns; when: isPaired" ></tr>
       </table>
 
             <!--
