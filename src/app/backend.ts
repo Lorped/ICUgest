@@ -68,6 +68,15 @@ export class Backend {
     return this.http.get('https://www.roma-by-night.it/ICU/getcondizioni.php' );
   }
 
+  addoggetto(nomeoggetto: string, descrizione: string, fissomobile: string) {
+    const oggetto = { nomeoggetto, descrizione, fissomobile };
+    return this.http.post('https://www.roma-by-night.it/ICU/addoggetto.php', oggetto);
+  }
+
+  cancellaoggetto(IDoggetto: number) {
+    const oggetto = { IDoggetto };
+    return this.http.post('https://www.roma-by-night.it/ICU/cancellaoggetto.php', oggetto);
+  }
 
 
 }

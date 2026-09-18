@@ -112,7 +112,6 @@ export class Oggetti {
   isOggetto (_index: number, row: Riga){
     return row.tipo === 'oggetto';
   }
-
   isCondizione (_index: number, row: Riga){
     return row.tipo === 'condizione';
   }
@@ -124,8 +123,27 @@ export class Oggetti {
   }
 
 
-  cancellaoggetto(IDoggetto: number) {}
-  aggiungioggetto() {}
+  cancellaoggetto(IDoggetto: number) {
+    this.backend.cancellaoggetto(IDoggetto).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.ngOnInit(); // Refresh the list after deleting
+      }
+    );
+  }
+  aggiungioggetto() {
+    this.backend.addoggetto(this.newnomeoggetto, this.newdescrizione, this.newfissomobile).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.ngOnInit(); // Refresh the list after adding
+      }
+    );
+  }
   modifica(IDoggetto: number, item: Oggetto) {}
-  stampa() {}
+  stampa() {
+    var win = window.open("https://www.roma-by-night.it/ICU/stampaoggetti.php", '_blank');
+    if (win) {
+      win.focus();
+    }
+  }
 }
