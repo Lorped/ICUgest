@@ -11,7 +11,7 @@ export class Skill {
     public IDskill = 0;
     public nomeskill = '';
     public livello = 0;
-    public subskills: Subskill[] = [];  //array delle sottocompetenze della skill
+    public subskill: Subskill[] = [];  //array delle sottocompetenze della skill
 }
 export class Otherskill {  //classe per le altre skill del personaggio
     public IDskill = 0;
@@ -53,6 +53,31 @@ export class Oggetto {
     public paired = new Paired();
 }
 
+export class Societa {
+    public IDsocieta = 0;
+    public nomesocieta = '';
+}
+
+export class Clan {
+    public IDclan = 0;
+    public nomeclan = '';
+}
+
+export class Dominio {
+    public IDdominio = 0;
+    public nomedominio = '';
+}
+
+export class Disciplina {
+    public IDdisciplina = 0;
+    public nomedisciplina = '';
+}
+
+export class Unpaired {
+  public idoggetto = 0;
+  public nomeoggetto = '';
+}
+
 
 
 
@@ -77,6 +102,12 @@ export class Backend {
     const oggetto = { IDoggetto };
     return this.http.post('https://www.roma-by-night.it/ICU/cancellaoggetto.php', oggetto);
   }
+  getoggetto(IDoggetto: number) {
+    return this.http.get(`https://www.roma-by-night.it/ICU/getoggetto.php?IDoggetto=${IDoggetto}`);
+  }
 
+  getunpaired(IDoggetto: number) {
+    return this.http.get(`https://www.roma-by-night.it/ICU/getunpaired.php?IDoggetto=${IDoggetto}`);
+  }
 
 }

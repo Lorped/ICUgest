@@ -10,7 +10,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 
 interface RigaBase {
@@ -66,6 +67,7 @@ export class Oggetti {
 
   private backend = inject(Backend);
   private cdr = inject(ChangeDetectorRef);
+  private route = inject(Router);
 
   constructor() {}
 
@@ -139,7 +141,11 @@ export class Oggetti {
       }
     );
   }
-  modifica(IDoggetto: number, item: Oggetto) {}
+
+  modifica(IDoggetto: number, item: Oggetto) {
+    this.route.navigate(['/cambiaoggetto', IDoggetto]);
+  }
+  
   stampa() {
     var win = window.open("https://www.roma-by-night.it/ICU/stampaoggetti.php", '_blank');
     if (win) {
