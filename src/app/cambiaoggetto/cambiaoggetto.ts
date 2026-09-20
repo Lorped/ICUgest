@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { ChangeDetectorRef } from '@angular/core';
 
 
@@ -27,6 +28,7 @@ import { ChangeDetectorRef } from '@angular/core';
     MatInputModule,
     MatRadioModule,
     MatSelectModule,
+    MatIconModule,
   ],
   selector: 'app-cambiaoggetto',
   styleUrl: './cambiaoggetto.scss',
@@ -60,20 +62,45 @@ export class Cambiaoggetto {
     Validators.max(10),
     Validators.min(1)
   ]);
+  valcondO = new UntypedFormControl('', [
+    Validators.required,
+    Validators.max(10),
+    Validators.min(1)
+  ]);
 
-  tabcondA = '';
+  tabcondA = '';   // Attributo
   tabcondS = '';
   tabcondSS = '';
-  tabcondX = '';
+  tabcondO = '';  // Otherskill
+  tabcondD = '';  // Disciplina
+  tabcondY = '';  // Dominio
+  tabcondX = '';  // societa
+  tabcondC = '';  // Clan
   tabcondP = '';
-  tabcondD = '';
+  
 
   descrizioneA = '';      // Attributo vale come skill
   descrizioneS = '';
   descrizioneSS = '';
-  descrizioneX  = ''; //altri skill
-  descrizioneP = '';
+  descrizioneO = '';  // Otherskill
   descrizioneD = '';    // disciplina
+  descrizioneY  = '';   // dominio
+  descrizioneX  = '';  // societa
+  descrizioneC  = '';  // Clan
+  descrizioneP = '';
+  
+
+  quandoA = 'x';
+  quandoS = 'x';
+  quandoSS = 'x';
+  quandoO = 'x';
+  quandoD = 'x';
+  quandoY = 'x';
+  quandoX = 'x';
+  quandoC = 'x';
+  quandoP = 'x';
+
+
 
   nomeoggettoIniziale = '';
   descrizioneIniziale = '';
@@ -82,12 +109,7 @@ export class Cambiaoggetto {
   rispSi = '';
   rispNo = '';
 
-  quandoA = 'x';
-  quandoS = 'x';
-  quandoSS = 'x';
-  quandoX = 'x';
-  quandoD = 'x';
-  quandoP = 'x';
+  
   quando: { id: string, nome: string }[] = [
     {id: 'x', nome: 'Sempre'} ,
     {id: 'S', nome: 'Se SI'} ,
@@ -177,11 +199,11 @@ export class Cambiaoggetto {
   }
 
   aggiornasubskill() {
-    console.log("skill", this.skill);
-    console.log("tabcondS", this.tabcondS);
+    //console.log("skill", this.skill);
+    //console.log("tabcondS", this.tabcondS);
     const selectedSkill = this.skill.find(skill => skill.IDskill == Number(this.tabcondS));
-    console.log("selectedSkill: ", selectedSkill);
+    //console.log("selectedSkill: ", selectedSkill);
     this.subskill = selectedSkill ? selectedSkill.subskill : [];  
-    console.log("subskill: ", this.subskill);
+    //console.log("subskill: ", this.subskill);
   }
 }

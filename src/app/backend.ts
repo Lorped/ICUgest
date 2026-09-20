@@ -23,7 +23,7 @@ export class Otherskill {  //classe per le altre skill del personaggio
 export class Condizione {
     public IDcondizione = 0;
     public IDoggetto = 0;
-    public tipocond = '';   // S skill SS subskill D disciplina X societa Y dominio
+    public tipocond = '';   // S skill SS subskill D disciplina X societa Y dominio C clan
     public tabcond = 0;     // IDxx della condizione
     public valcond = 0;     // livello minimo se applicabile
     public descrX  = '';    // descrizione se condizione applicata
