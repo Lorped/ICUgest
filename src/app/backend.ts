@@ -74,7 +74,7 @@ export class Disciplina {
 }
 
 export class Unpaired {
-  public idoggetto = 0;
+  public IDoggetto = 0;
   public nomeoggetto = '';
 }
 
@@ -102,12 +102,32 @@ export class Backend {
     const oggetto = { IDoggetto };
     return this.http.post('https://www.roma-by-night.it/ICU/cancellaoggetto.php', oggetto);
   }
-  getoggetto(IDoggetto: number) {
-    return this.http.get(`https://www.roma-by-night.it/ICU/getoggetto.php?IDoggetto=${IDoggetto}`);
+  getoggetto(IDoggetto: number, cacheBust = false) {
+    const refresh = cacheBust ? `&refresh=${Date.now()}` : '';
+    return this.http.get(`https://www.roma-by-night.it/ICU/getoggetto.php?IDoggetto=${IDoggetto}${refresh}`);
   }
 
   getunpaired(IDoggetto: number) {
     return this.http.get(`https://www.roma-by-night.it/ICU/getunpaired.php?IDoggetto=${IDoggetto}`);
+  }
+
+  addcondizione(IDoggetto: number, tipocond: string, tabcond: number, valcond: number, descrX: string, risp: string) {
+    const condizione = { IDoggetto, tipocond, tabcond, valcond, descrX, risp };   
+    return this.http.post('https://www.roma-by-night.it/ICU/addcondizione.php', condizione);
+  }
+
+  addDomanda( IDoggetto: number, domanda: string, r1: string, r2: string) {
+    return this.http.post(`https://www.roma-by-night.it/ICU/adddomanda.php`, {
+      IDoggetto: IDoggetto,
+      domanda: domanda,
+      r1: r1,
+      r2: r2
+    });
+  }
+
+  addpaired(IDoggetto1: number, IDoggetto2: number, descrizionePaired: string) {
+    const paired = { IDoggetto1, IDoggetto2, descrizionePaired };
+    return this.http.post('https://www.roma-by-night.it/ICU/addpaired.php', paired);
   }
 
 }

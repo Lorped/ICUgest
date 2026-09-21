@@ -60,6 +60,30 @@
                 <button  mat-raised-button color="warn" (click)="aggiornaogg(oggetto.IDoggetto)" [disabled]="!oggettoModificato()">Aggiorna</button>
               </td>
           </tr>
+
+          <tr>
+            @if (oggetto.adddisciplina!=='') {
+              <td >
+                  &nbsp;
+              </td>
+              <td >
+                  Disciplina Incrementata
+              </td>
+              <td style="text-align: left;">
+                  {{oggetto.adddisciplina}} +1
+              </td>
+              <td >
+                  &nbsp;
+              </td>
+              <td >
+                  &nbsp;
+              </td>
+              <td >
+                  <button  mat-raised-button color="warn" (click)="cancellaeffetto()">Cancella</button>
+              </td>
+            }
+          </tr>
+
           @for (cond of oggetto.condizioni; track cond) {
           <tr>
             <td >
@@ -69,7 +93,7 @@
                 {{cond.tipocond}}
             </td>
             <td style="text-align: left;">
-                Min. {{cond.valcond}}
+                @if (cond.valcond>0) { Min. {{cond.valcond}} } @else { &nbsp; } 
             </td>
             <td style="text-align: left;">
                 {{cond.descrX}}
@@ -110,13 +134,13 @@
           @for (cond of oggetto.condizioni2; track cond) {
           <tr>
             <td >
-                <span (class)="{'red': cond.risp=='N' , 'green': cond.risp=='S'}"> {{cond.risp}} </span>
+                @if (cond.risp=='S') { <mat-icon fontIcon="thumb_up" class="green-icon"></mat-icon>   } @else if (cond.risp=='N') { <mat-icon fontIcon="thumb_down" color="warn"></mat-icon>  } @else { &nbsp; }
             </td>
             <td >
                 {{cond.tipocond}}
             </td>
             <td style="text-align: left;">
-                Min. {{cond.valcond}}
+                @if (cond.valcond>0) { Min. {{cond.valcond}} } @else { &nbsp; } 
             </td>
             <td style="text-align: left;">
                 {{cond.descrX}}
@@ -202,9 +226,7 @@
               </mat-form-field>
             </td>
             <td >
-              <mat-form-field appearance="fill" >
-                <input matInput [formControl]="valcondA" placeholder="Min." type="text" pattern="\d*">
-              </mat-form-field>
+              &nbsp;
             </td>
             <td >
               @if (oggetto.ifdomanda==1) {
@@ -227,7 +249,7 @@
               &nbsp;
             </td>
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('A')" [disabled]=" !(valcondA.errors===null) || descrizioneA=='' || tabcondA=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('A')" [disabled]="  descrizioneA=='' || tabcondA=='' ">Aggiungi</button>
             </td>
           </tr>
 
@@ -537,7 +559,7 @@
             </td>
           </tr>          
 
-
+          <!---->
 
           @if (oggetto.paired.idpaired==0) {
           <tr>
@@ -549,7 +571,7 @@
                   <mat-label>Scegli Accoppiamento</mat-label>
                   <mat-select   [(value)]="tabpaired" >
                     @for (i of unpaired; track i) {
-                      <mat-option [value]="i.idoggetto">{{i.nomeoggetto}}</mat-option>
+                      <mat-option [value]="i.IDoggetto">{{i.nomeoggetto}}</mat-option>
                     }
                   </mat-select>
                 </mat-form-field>
@@ -558,20 +580,16 @@
                 &nbsp;
             </td>
             <td >
-                <!---
-                <mat-radio-group [(ngModel)]="quandoP"  *ngIf="oggetto.ifdomanda==1">
-                  <mat-radio-button  class="example-radio-button"  *ngFor="let tipo of quando" [value]="tipo.id">
-                    {{tipo.nome}}
-                  </mat-radio-button>
-                </mat-radio-group>
-                --->
                 &nbsp;
             </td>
             <td >
-                <mat-form-field appearance="fill" class="full">
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
                   <mat-label>Descrizione</mat-label>
                   <textarea matInput [(ngModel)]="descrizionePaired"></textarea>
                 </mat-form-field>
+            </td>
+            <td >
+                &nbsp;
             </td>
             <td >
                 <button  mat-raised-button color="primary" (click)="addpaired()" [disabled]="  descrizionePaired=='' || tabpaired=='' ">Aggiungi</button>
@@ -584,30 +602,50 @@
 
           <mat-divider></mat-divider>
 
-          <table><tbody>
+          <table style="width: 100%; margin: 0 auto; text-align: center;"><tbody>
+
+            <tr>
+              <th style="width: 5%;">
+              </th>
+              <th style="width: 25%;">
+              </th>
+              <th style="width: 10%;">
+              </th>
+              <th style="width: 22.5%;">
+              </th>
+              <th style="width: 22.5%;">
+              </th>
+              <th style="width: 5%;">
+              </th>
+              <th style="width: 10%;">
+              </th>
+            </tr>            
 
 
           @if (oggetto.ifdomanda==0) {
           <tr>
-            <td style="width: 33.33%;">
-                <mat-form-field appearance="fill" class="full">
+            <td>&nbsp;</td>
+            <td>
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
                   <mat-label>Domanda</mat-label>
                   <textarea matInput [(ngModel)]="domanda"></textarea>
                 </mat-form-field>
             </td>
-            <td style="width: 33.33%;">
-                <mat-form-field appearance="fill" class="full">
+            <td>&nbsp;</td>
+            <td >
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
                   <mat-label>SE SI:</mat-label>
                   <textarea matInput [(ngModel)]="rispSi"></textarea>
                 </mat-form-field>
             </td>
-            <td style="width: 33.33%;">
-                <mat-form-field appearance="fill" class="full">
+            <td >
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
                   <mat-label>SE NO:</mat-label>
                   <textarea matInput [(ngModel)]="rispNo"></textarea>
                 </mat-form-field>
             </td>
-            <td style="width: 20%;">
+            <td>&nbsp;</td>
+            <td >
                 <button  mat-raised-button color="primary" (click)="adddomanda()" [disabled]=" domanda=='' || rispNo=='' || rispSi=='' ">Aggiungi</button>
             </td>
           </tr>

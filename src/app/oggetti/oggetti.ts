@@ -23,6 +23,11 @@ interface RigaCondizione {
   parentID: number;
   dettaglio: Condizione;
 }
+interface RigaCondizione2 {
+  tipo: 'condizione2';
+  parentID: number;
+  dettaglio: Condizione;
+}
 interface RigaRisposta {
   tipo: 'risposta';
   parentID: number;
@@ -36,8 +41,14 @@ interface RigaPaired {
   oggettoPaired: string;
   descrizionePaired: string;
 }
+interface RigaEfetto {
+  tipo: 'effetto';
+  parentID: number;
+  adddisciplina: string;
+}
 
-type Riga = | RigaBase | RigaCondizione| RigaRisposta | RigaPaired;
+
+type Riga = | RigaBase | RigaCondizione| RigaCondizione2 | RigaRisposta | RigaPaired | RigaEfetto;
 
 @Component({
   imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule, MatGridListModule, MatIconModule ],
@@ -49,8 +60,10 @@ export class Oggetti {
   listaoggetti: Oggetto[] = [];
   displayedColumns: string[] = ['IDoggetto', 'Barcode', 'Nomeoggetto', 'Descrizione', 'Fissomobile', 'Incremento', 'Cancella'];
   detailColumns: string[] = ['Dummy', 'Tipocond', 'Valcond', 'descrX'];
+  detailColumns2: string[] = ['Risp', 'Tipocond', 'Valcond', 'descrX'];
   rispostaColumns: string[] = ['Dummy', 'Domanda', 'Si', 'No'];
   pairedColumns: string[] = ['Dummy', 'OggettoPaired', 'DescrizionePaired'];
+  effettoColumns: string[] = ['Dummy', 'Dummy', 'AddDisciplina'];
   
 
   datasource = new MatTableDataSource<Riga>( this.creaRighe(this.listaoggetti) ); 
@@ -89,40 +102,44 @@ export class Oggetti {
         tipo: 'oggetto',
         oggetto
       },
+      ...((oggetto.adddisciplina ?? '').trim() !== '' ? [{
+        tipo: 'effetto' as const,
+        parentID: oggetto.IDoggetto,
+        adddisciplina: oggetto.adddisciplina
+      }] : []),    
+      ...oggetto.condizioni.map((condizioni): Riga => ({
+        tipo: 'condizione',
+        parentID: oggetto.IDoggetto,
+        dettaglio: condizioni
+      })),
       ...((oggetto.domanda ?? '').trim() !== '' ? [{
         tipo: 'risposta' as const,
         parentID: oggetto.IDoggetto,
         domanda: oggetto.domanda,
         si: oggetto.r1,
         no: oggetto.r2
-      }] : []),
+      }] : []),  
+      ...oggetto.condizioni2.map((condizioni): Riga => ({
+        tipo: 'condizione2',
+        parentID: oggetto.IDoggetto,
+        dettaglio: condizioni
+      })),
       ...((oggetto.paired.idpaired !== 0 ) ? [{
         tipo: 'paired' as const,
         parentID: oggetto.IDoggetto,
         oggettoPaired: oggetto.paired.nomepaired,
         descrizionePaired: oggetto.paired.descpaired
-      }] : []),
-      ...oggetto.condizioni.map((condizioni): Riga => ({
-        tipo: 'condizione',
-        parentID: oggetto.IDoggetto,
-        dettaglio: condizioni
-      }))
+      }] : [])
     ]);
   }
 
 
-  isOggetto (_index: number, row: Riga){
-    return row.tipo === 'oggetto';
-  }
-  isCondizione (_index: number, row: Riga){
-    return row.tipo === 'condizione';
-  }
-  isRisposta (_index: number, row: Riga){
-    return row.tipo === 'risposta';
-  }
-  isPaired (_index: number, row: Riga){
-    return row.tipo === 'paired';
-  }
+  isOggetto = (_index: number, row: Riga) => row.tipo === 'oggetto';
+  isCondizione = (_index: number, row: Riga) => row.tipo === 'condizione';
+  isCondizione2 = (_index: number, row: Riga) => row.tipo === 'condizione2';
+  isRisposta = (_index: number, row: Riga) => row.tipo === 'risposta';
+  isPaired = (_index: number, row: Riga) => row.tipo === 'paired';
+  isEffetto = (_index: number, row: Riga) => row.tipo === 'effetto';
 
 
   cancellaoggetto(IDoggetto: number) {

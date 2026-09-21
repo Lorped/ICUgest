@@ -37,11 +37,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class Cambiaoggetto {
   readonly IDoggetto = Number(inject(ActivatedRoute).snapshot.paramMap.get('IDoggetto'));
 
-   valcondA = new UntypedFormControl('', [
-    Validators.required,
-    Validators.max(10),
-    Validators.min(1)
-  ]);
+
   valcondS = new UntypedFormControl('', [
     Validators.required,
     Validators.max(10),
@@ -53,11 +49,6 @@ export class Cambiaoggetto {
     Validators.min(1)
   ]);
   valcondSS = new UntypedFormControl('', [
-    Validators.required,
-    Validators.max(10),
-    Validators.min(1)
-  ]);
-  valcondX = new UntypedFormControl('', [
     Validators.required,
     Validators.max(10),
     Validators.min(1)
@@ -136,6 +127,7 @@ export class Cambiaoggetto {
 
   private backend = inject(Backend);
   private cdr = inject(ChangeDetectorRef);
+  private oggettoRequest = 0;
 
   constructor() {
     this.backend.getcondizioni().subscribe((data: any) => {
@@ -153,13 +145,44 @@ export class Cambiaoggetto {
   }
 
   ngOnInit() {
+    this.tabcondA = '';   // Attributo
+    this.tabcondS = '';
+    this.tabcondSS = '';
+    this.tabcondO = '';  // Otherskill
+    this.tabcondD = '';  // Disciplina
+    this.tabcondY = '';  // Dominio
+    this.tabcondX = '';  // societa
+    this.tabcondC = '';  // Clan
 
-    this.backend.getoggetto(this.IDoggetto).subscribe((data: any) => {
-      this.oggetto = data.oggetti[0];
-      this.nomeoggettoIniziale = this.oggetto.nomeoggetto;
-      this.descrizioneIniziale = this.oggetto.descrizione;
-      this.cdr.detectChanges();
-    });
+
+    this.descrizioneA = '';      // Attributo vale come skill
+    this.descrizioneS = '';
+    this.descrizioneSS = '';
+    this.descrizioneO = '';  // Otherskill
+    this.descrizioneD = '';    // disciplina
+    this.descrizioneY  = '';   // dominio
+    this.descrizioneX  = '';  // societa
+    this.descrizioneC  = '';  // Clan
+
+    
+
+    this.quandoA = 'x';
+    this.quandoS = 'x';
+    this.quandoSS = 'x';
+    this.quandoO = 'x';
+    this.quandoD = 'x';
+    this.quandoY = 'x';
+    this.quandoX = 'x';
+    this.quandoC = 'x';
+
+
+
+    this.valcondD.setValue('');
+    this.valcondS.setValue('');
+    this.valcondSS.setValue('');
+    this.valcondO.setValue('');
+
+    this.caricaOggetto();
     this.backend.getunpaired(this.IDoggetto).subscribe(
       (data: any) => {
         this.unpaired = data.unpaired;
@@ -169,15 +192,122 @@ export class Cambiaoggetto {
     
   }
 
+  private caricaOggetto(cacheBust = false) {
+    const request = ++this.oggettoRequest;
+
+    this.backend.getoggetto(this.IDoggetto, cacheBust).subscribe((data: any) => {
+      if (request !== this.oggettoRequest || !data.oggetti?.length) {
+        return;
+      }
+
+      this.oggetto = data.oggetti[0];
+      this.nomeoggettoIniziale = this.oggetto.nomeoggetto;
+      this.descrizioneIniziale = this.oggetto.descrizione;
+      this.cdr.detectChanges();
+    });
+  }
+
 
   addcond(tipo: string) {
     console.log(`Adding condition of type ${tipo}`);
+    let valcond = '';
+    let tabcond = '';
+    let descrizione = '';
+    let quando = '';
+
+    switch(tipo) {
+      case 'A':
+        // Handle Attributo condition
+        valcond = ''; // non applicabile per Attributo
+        tabcond = this.tabcondA;
+        descrizione = this.descrizioneA;
+        quando = this.quandoA;      
+        break;
+      case 'S':
+        // Handle Skill condition
+        valcond = this.valcondS.value;
+        tabcond = this.tabcondS;
+        descrizione = this.descrizioneS;
+        quando = this.quandoS;   
+        break;
+      case 'SS':
+        // Handle Subskill condition
+        valcond = this.valcondSS.value;
+        tabcond = this.tabcondSS;
+        descrizione = this.descrizioneSS;
+        quando = this.quandoSS;   
+        break;
+      case 'O':
+        // Handle Otherskill condition
+        valcond = this.valcondO.value;
+        tabcond = this.tabcondO;
+        descrizione = this.descrizioneO;
+        quando = this.quandoO;   
+        break;
+      case 'D':
+        // Handle Disciplina condition
+        valcond = this.valcondD.value;
+        tabcond = this.tabcondD;
+        descrizione = this.descrizioneD;
+        quando = this.quandoD;   
+        break;
+      case 'Y':
+        // Handle Dominio condition
+        valcond = ''; //non applicabile per Dominio
+        tabcond = this.tabcondY;
+        descrizione = this.descrizioneY;
+        quando = this.quandoY;   
+        break;
+      case 'X':
+        // Handle Societa condition
+        valcond = ''; //non applicabile per Societa
+        tabcond = this.tabcondX;
+        descrizione = this.descrizioneX;
+        quando = this.quandoX;   
+        break;
+      case 'C':
+        // Handle Clan condition
+        valcond = '';  //non applicabile per Clan
+        tabcond = this.tabcondC;
+        descrizione = this.descrizioneC;
+        quando = this.quandoC;   
+        break;
+    }
+    this.backend.addcondizione(this.oggetto.IDoggetto, tipo, Number(tabcond), Number(valcond), descrizione, quando).subscribe(
+      response => {
+        console.log(`Condition added successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error adding condition: `, error);
+      }
+    );
+
   }
   addpaired() {
     console.log(`Adding paired object`);
+    console.log(`Adding paired object with IDoggetto: ${this.oggetto.IDoggetto}, tabpaired: ${this.tabpaired}, descrizionePaired: ${this.descrizionePaired}`);
+    this.backend.addpaired(this.oggetto.IDoggetto, Number(this.tabpaired), this.descrizionePaired).subscribe(
+      response => {
+        console.log(`Paired object added successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error adding paired object: `, error);
+      }
+    );
   }
   adddomanda() {
     console.log(`Adding domanda`);
+    this.backend.addDomanda(this.oggetto.IDoggetto, this.domanda, this.rispSi, this.rispNo).subscribe(
+      response => {
+        console.log(`Domanda added successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error adding domanda: `, error);
+      }
+    );
   }
   aggiornaogg(IDoggetto: number) {
     console.log(`Updating object ${IDoggetto}`);
@@ -196,6 +326,9 @@ export class Cambiaoggetto {
   }
   cancellapaired() {
     console.log(`Cancelling paired object`);
+  }
+  cancellaeffetto() {
+    console.log(`Cancelling effetto`);
   }
 
   aggiornasubskill() {
