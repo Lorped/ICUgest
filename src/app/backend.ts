@@ -130,4 +130,29 @@ export class Backend {
     return this.http.post('https://www.roma-by-night.it/ICU/addpaired.php', paired);
   }
 
+  addincremento(IDoggetto: number, newincremento: number) {
+    const incremento = { IDoggetto, newincremento };
+    return this.http.post('https://www.roma-by-night.it/ICU/addincremento.php', incremento);
+  }
+
+  cancellacondizione(IDcondizione: number) {
+    const condizione = { IDcondizione };
+    return this.http.post('https://www.roma-by-night.it/ICU/cancellacondizione.php', condizione);
+  }
+
+  cancellapaired(IDoggetto: number) {
+    const oggetto = { IDoggetto };
+    return this.http.post('https://www.roma-by-night.it/ICU/cancellapaired.php', oggetto);
+  }
+
+  cancelladomanda(IDoggetto: number) {
+    const oggetto = { IDoggetto };
+    return this.http.post('https://www.roma-by-night.it/ICU/cancelladomanda.php', oggetto);
+  }
+
+  cancellaeffetto(IDoggetto: number) {
+    const oggetto = { IDoggetto };
+    return this.http.post('https://www.roma-by-night.it/ICU/cancellaeffetto.php', oggetto);
+  }
+
 }

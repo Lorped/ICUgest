@@ -100,6 +100,8 @@ export class Cambiaoggetto {
   rispSi = '';
   rispNo = '';
 
+  newincremento = '';
+
   
   quando: { id: string, nome: string }[] = [
     {id: 'x', nome: 'Sempre'} ,
@@ -145,7 +147,20 @@ export class Cambiaoggetto {
   }
 
   ngOnInit() {
-    this.tabcondA = '';   // Attributo
+    
+
+    this.caricaOggetto();
+    this.backend.getunpaired(this.IDoggetto).subscribe(
+      (data: any) => {
+        this.unpaired = data.unpaired;
+        this.cdr.detectChanges();
+      }
+    );
+    
+  }
+
+  private caricaOggetto(cacheBust = false) {
+this.tabcondA = '';   // Attributo
     this.tabcondS = '';
     this.tabcondSS = '';
     this.tabcondO = '';  // Otherskill
@@ -182,17 +197,8 @@ export class Cambiaoggetto {
     this.valcondSS.setValue('');
     this.valcondO.setValue('');
 
-    this.caricaOggetto();
-    this.backend.getunpaired(this.IDoggetto).subscribe(
-      (data: any) => {
-        this.unpaired = data.unpaired;
-        this.cdr.detectChanges();
-      }
-    );
-    
-  }
 
-  private caricaOggetto(cacheBust = false) {
+
     const request = ++this.oggettoRequest;
 
     this.backend.getoggetto(this.IDoggetto, cacheBust).subscribe((data: any) => {
@@ -285,8 +291,6 @@ export class Cambiaoggetto {
 
   }
   addpaired() {
-    console.log(`Adding paired object`);
-    console.log(`Adding paired object with IDoggetto: ${this.oggetto.IDoggetto}, tabpaired: ${this.tabpaired}, descrizionePaired: ${this.descrizionePaired}`);
     this.backend.addpaired(this.oggetto.IDoggetto, Number(this.tabpaired), this.descrizionePaired).subscribe(
       response => {
         console.log(`Paired object added successfully: `, response);
@@ -298,7 +302,6 @@ export class Cambiaoggetto {
     );
   }
   adddomanda() {
-    console.log(`Adding domanda`);
     this.backend.addDomanda(this.oggetto.IDoggetto, this.domanda, this.rispSi, this.rispNo).subscribe(
       response => {
         console.log(`Domanda added successfully: `, response);
@@ -319,16 +322,51 @@ export class Cambiaoggetto {
   }
 
   cancellacond(idcondizione: number) {
-    console.log(`Cancelling condition ${idcondizione}`);
+    this.backend.cancellacondizione(idcondizione).subscribe(
+      response => {
+        console.log(`Condition cancelled successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error cancelling condition: `, error);
+      }
+    );
   }
+
   cancelladomanda() {
-    console.log(`Cancelling domanda`);
+    this.backend.cancelladomanda(this.oggetto.IDoggetto).subscribe(
+      response => {
+        console.log(`Domanda cancelled successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error cancelling domanda: `, error);
+      }
+    );
   }
+
   cancellapaired() {
-    console.log(`Cancelling paired object`);
+    this.backend.cancellapaired(this.oggetto.IDoggetto).subscribe(
+      response => {
+        console.log(`Paired object cancelled successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error cancelling paired object: `, error);
+      }
+    );
   }
+
   cancellaeffetto() {
-    console.log(`Cancelling effetto`);
+    this.backend.cancellaeffetto(this.oggetto.IDoggetto).subscribe(
+      response => {
+        console.log(`Effetto cancelled successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error cancelling effetto: `, error);
+      }
+    );
   }
 
   aggiornasubskill() {
@@ -338,5 +376,17 @@ export class Cambiaoggetto {
     //console.log("selectedSkill: ", selectedSkill);
     this.subskill = selectedSkill ? selectedSkill.subskill : [];  
     //console.log("subskill: ", this.subskill);
+  }
+  
+  addincremento() {
+    this.backend.addincremento(this.oggetto.IDoggetto, Number(this.newincremento)).subscribe(
+      response => {
+        console.log(`Incremento added successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error => {
+        console.error(`Error adding incremento: `, error);
+      }
+    );
   }
 }

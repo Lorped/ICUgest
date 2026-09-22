@@ -153,7 +153,9 @@ export class Oggetti {
   aggiungioggetto() {
     this.backend.addoggetto(this.newnomeoggetto, this.newdescrizione, this.newfissomobile).subscribe(
       (data: any) => {
-        console.log(data);
+        this.newnomeoggetto = '';
+        this.newdescrizione = '';
+        this.newfissomobile = 'F';
         this.ngOnInit(); // Refresh the list after adding
       }
     );
