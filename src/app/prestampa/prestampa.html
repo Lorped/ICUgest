@@ -1,0 +1,53 @@
+<div class="container" style="width: 80%; margin-top: 1em;">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>Selezione oggetti per la stampa</mat-card-title>
+		</mat-card-header>
+
+		<mat-card-content>
+			<button
+				mat-raised-button
+				color="primary"
+				class="print-button"
+				[disabled]="!almenoUnoSelezionato || !selezionatiValidi"
+				(click)="stampa() "style="width: 100%;">
+				Stampa Oggetti
+			</button>
+
+			<mat-divider></mat-divider>
+
+			<table class="prestampa-table" style="width: 100%; border-collapse: collapse;">
+				<thead>
+					<tr>
+						<th style="text-align: left; width: 10%">
+							<mat-checkbox [checked]="tuttiSelezionati" (change)="toggleSelezionaTutti()"> </mat-checkbox>
+						</th>
+						<th style="text-align: left; width: 10%">ID</th>
+						<th style="text-align: left; width: 60%">Nome oggetto</th>
+						<th style="text-align: left; width: 20%">Quantita</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for (riga of righe; track riga.idoggetto) {
+						<tr>
+							<td>
+								<mat-checkbox
+									[(ngModel)]="riga.selezionato"
+									(change)="aggiornaSelezione()">
+								</mat-checkbox>
+							</td>
+							<td>{{ riga.idoggetto }}</td>
+							<td>{{ riga.nomeoggetto }}</td>
+							<td>
+								<mat-form-field appearance="fill" style="width: 80px;">
+									<mat-label>Quantita</mat-label>
+									<input matInput type="number" min="1" max="10" [(ngModel)]="riga.quantita" [disabled]="!riga.selezionato">
+								</mat-form-field>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</mat-card-content>
+	</mat-card>
+</div>

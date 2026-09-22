@@ -87,7 +87,11 @@ export class Backend {
   constructor() {}
 
   listoggetti() {
-    return this.http.get('https://www.roma-by-night.it/ICU/listoggetti.php' );
+    return this.http.get<{ oggetti: Oggetto[] }>('https://www.roma-by-night.it/ICU/listoggetti.php' );
+  }
+
+  prestampa(righe: { IDoggetto: number; quantita: number }[]) {
+    return this.http.post('https://www.roma-by-night.it/ICU/prestampa.php', righe);
   }
   getcondizioni() {
     return this.http.get('https://www.roma-by-night.it/ICU/getcondizioni.php' );

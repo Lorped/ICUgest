@@ -166,9 +166,10 @@ export class Oggetti {
   }
   
   stampa() {
-    var win = window.open("https://www.roma-by-night.it/ICU/stampaoggetti.php", '_blank');
-    if (win) {
-      win.focus();
-    }
+    //var win = window.open("https://www.roma-by-night.it/ICU/stampaoggetti.php", '_blank');
+    //if (win) {
+    //  win.focus();
+    //}
+    this.route.navigate(['/prestampa']);
   }
 }

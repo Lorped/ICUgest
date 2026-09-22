@@ -12,6 +12,11 @@ export const routes: Routes = [
 			import('./oggetti/oggetti').then(({ Oggetti }) => Oggetti),
 	},
 	{
+		path: 'prestampa',
+		loadComponent: () =>
+			import('./prestampa/prestampa').then(({ Prestampa }) => Prestampa),
+	},
+	{
 		path: 'cambiaoggetto/:IDoggetto',
 		loadComponent: () =>
 			import('./cambiaoggetto/cambiaoggetto').then(({ Cambiaoggetto }) => Cambiaoggetto),
