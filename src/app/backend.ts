@@ -78,7 +78,13 @@ export class Unpaired {
   public nomeoggetto = '';
 }
 
-
+export class PersonaggiList {
+  user_id: number = 0;
+  nomepg: string = '';  //nome del personaggio
+  nomeclan: string = '';  //nome del clan DA LEFT JOIN
+  nomesocieta: string = '';  //nome della società DA LEFT JOIN
+  nomedominio: string = '';  //nome del dominio DA LEFT JOIN
+}
 
 
 @Service()
@@ -159,4 +165,12 @@ export class Backend {
     return this.http.post('https://www.roma-by-night.it/ICU/cancellaeffetto.php', oggetto);
   }
 
+  listPersonaggi() {
+    return this.http.get<PersonaggiList[]>('https://www.roma-by-night.it/ICU/listutenti.php');
+  }
+
+  inviaMessaggio(messaggio: string, destinatari: number[]) {
+    const payload = { messaggio, destinatari: destinatari };
+    return this.http.post('https://www.roma-by-night.it/ICU/inviamessaggio.php', payload);
+  }
 }

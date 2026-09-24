@@ -21,6 +21,11 @@ export const routes: Routes = [
 		loadComponent: () =>
 			import('./cambiaoggetto/cambiaoggetto').then(({ Cambiaoggetto }) => Cambiaoggetto),
 	},
+		{
+		path: 'messaggi',
+		loadComponent: () =>
+			import('./messaggi/messaggi').then(({ Messaggi }) => Messaggi),
+	},
 	{
 		path: '',
 		pathMatch: 'full',

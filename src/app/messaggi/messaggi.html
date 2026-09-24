@@ -1,0 +1,84 @@
+<div class="container" >
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Invio Messaggi
+      </mat-card-title>
+    </mat-card-header>
+      
+    <mat-card-content>
+
+      <mat-divider></mat-divider>
+
+        <form #messaggioForm="ngForm" (ngSubmit)="inviaMessaggio(messaggioForm)">
+          <mat-grid-list cols="6" rowHeight="10em">
+            <mat-grid-tile colspan="5">
+              <mat-form-field appearance="fill" style="width: 90%;">
+                <mat-label>Messaggio</mat-label>
+                <textarea matInput name="messaggio" ngModel required pattern="\s*\S+.*" #messaggioField="ngModel"></textarea>
+                @if (messaggioField.invalid && (messaggioField.dirty || messaggioField.touched)) {
+                  <mat-error>Il messaggio non può essere vuoto</mat-error>
+                }
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <button mat-raised-button color="primary" type="submit" [disabled]="messaggioForm.invalid">Invia</button>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </form>
+
+        <mat-divider></mat-divider>
+        <table mat-table [dataSource]="dataSource" matSort >
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [aria-label]="'Seleziona tutte le righe'">
+              </mat-checkbox>
+              Seleziona
+            </th>
+            <td mat-cell *matCellDef="let obj">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(obj) : null"
+                [checked]="selection.isSelected(obj)"
+                [aria-label]="'Seleziona riga'">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="user_id">
+            <th mat-header-cell *matHeaderCellDef> User ID</th>
+            <td mat-cell *matCellDef="let obj"> {{obj.user_id}} </td>
+          </ng-container>
+          <ng-container matColumnDef="nomepg">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Personaggio</th>
+            <td mat-cell *matCellDef="let obj"> {{obj.nomepg}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nomeclan">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Clan</th>
+            <td mat-cell *matCellDef="let obj"> {{obj.nomeclan}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nomedominio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Dominio</th>
+            <td mat-cell *matCellDef="let obj"> {{obj.nomedominio}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nomesocieta">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Società</th>
+            <td mat-cell *matCellDef="let obj"> {{obj.nomesocieta}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+    </mat-card-content>
+  </mat-card>
+</div>
