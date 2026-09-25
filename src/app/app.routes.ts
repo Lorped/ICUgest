@@ -27,6 +27,11 @@ export const routes: Routes = [
 			import('./messaggi/messaggi').then(({ Messaggi }) => Messaggi),
 	},
 	{
+		path: 'logscan',
+		loadComponent: () =>
+			import('./logscan/logscan').then(({ Logscan }) => Logscan),
+	},
+	{
 		path: '',
 		pathMatch: 'full',
 		redirectTo: 'main',

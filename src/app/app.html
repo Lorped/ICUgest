@@ -3,20 +3,28 @@
     <mat-icon>menu</mat-icon>
   </button>
   ICU - Ivory Cross University
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button type="button" [disabled]="notificationsEnabled() || notificationsPending()"
+    [attr.aria-label]="notificationsStatus() || (notificationsEnabled() ? 'Notifiche attive' : notificationsPending() ? 'Attivazione notifiche' : 'Attiva notifiche')"
+    [attr.title]="notificationsStatus() || (notificationsEnabled() ? 'Notifiche attive' : notificationsPending() ? 'Attivazione notifiche' : 'Attiva notifiche')"
+    (click)="enableNotifications()">
+    <mat-icon>{{ notificationsEnabled() ? 'notifications_active' : 'notifications' }}</mat-icon>
+  </button>
 </mat-toolbar>
 
 
 
 
-<mat-drawer-container  >
+<mat-drawer-container class="drawer-container">
   <mat-drawer #drawer class="example-sidenav" mode="side" style="width: 15%;">
     <mat-card>
       <mat-card-content>
         <mat-nav-list>
-          <a mat-list-item [routerLink]="['/']">Home</a>
-          <a mat-list-item [routerLink]="['/oggetti']">Lista Oggetti</a>
-          <a mat-list-item [routerLink]="['/prestampa']">Seleziona stampa</a>
-          <a mat-list-item [routerLink]="['/messaggi']">Invia Messaggi</a>
+          <a mat-list-item [routerLink]="['/']" (click)="drawer.close()">Home</a>
+          <a mat-list-item [routerLink]="['/oggetti']" (click)="drawer.close()">Lista Oggetti</a>
+          <a mat-list-item [routerLink]="['/prestampa']" (click)="drawer.close()">Seleziona stampa</a>
+          <a mat-list-item [routerLink]="['/messaggi']" (click)="drawer.close()">Invia Messaggi</a>
+          <a mat-list-item [routerLink]="['/logscan']" (click)="drawer.close()">Log Scan Utenti</a>
         </mat-nav-list>
       </mat-card-content>
     </mat-card>

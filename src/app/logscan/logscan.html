@@ -1,1 +1,54 @@
-<p>logscan works!</p>
+<div class="container" >
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Log Scan Utenti
+      </mat-card-title>
+    </mat-card-header>
+      
+    <mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <table mat-table [dataSource]="dataSource" matSort >
+
+            <ng-container matColumnDef="IDoggetto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Oggetto</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.IDoggetto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nomepg">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Personaggio</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.nomepg}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="datascan">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Scan</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.datascan}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nomeoggetto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Oggetto</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.nomeoggetto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="descrizione">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descrizione</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.descrizione}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="paired_nomeoggetto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Oggetto Accoppiato</th>
+                <td mat-cell *matCellDef="let obj">@if(obj.paired_nomeoggetto) {<mat-icon fontIcon="compare_arrows" color="warn"></mat-icon>} {{obj.paired_nomeoggetto}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+

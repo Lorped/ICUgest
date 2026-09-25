@@ -4,3 +4,19 @@ color: white;
 text-decoration: none;
 width: 75%;
 }
+
+.drawer-container {
+	min-height: calc(100vh - 64px);
+	min-height: calc(100dvh - 64px);
+}
+
+.toolbar-spacer {
+	flex: 1;
+}
+
+@media (max-width: 599px) {
+	.drawer-container {
+		min-height: calc(100vh - 56px);
+		min-height: calc(100dvh - 56px);
+	}
+}

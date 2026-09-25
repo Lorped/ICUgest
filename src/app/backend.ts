@@ -86,7 +86,7 @@ export class PersonaggiList {
   nomedominio: string = '';  //nome del dominio DA LEFT JOIN
 }
 
-export class Logscan {  
+export class LogscanItem {  
   public IDoggetto = 0;
   public user_id = 0;
   public nomepg = '';
@@ -182,6 +182,10 @@ export class Backend {
   inviaMessaggio(messaggio: string, destinatari: number[]) {
     const payload = { messaggio, destinatari: destinatari };
     return this.http.post('https://www.roma-by-night.it/ICU/inviamessaggio.php', payload);
+  }
+
+  savePushToken(user_id: number, token: string) {
+    return this.http.get(`https://www.roma-by-night.it/ICU/savePushToken.php?user_id=${user_id}&token=${encodeURIComponent(token)}`);
   }
 
   getlogscan() {
