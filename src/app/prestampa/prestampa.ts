@@ -47,6 +47,10 @@ export class Prestampa {
     return this.righe.some((riga) => riga.selezionato);
   }
 
+  get selezioneIndeterminata(): boolean {
+    return this.almenoUnoSelezionato && !this.tuttiSelezionati;
+  }
+
   get selezionatiValidi(): boolean {
     return this.righe
       .filter((riga) => riga.selezionato)

@@ -96,6 +96,14 @@ export class LogscanItem {
   public paired_nomeoggetto = '';
 }
 
+export class MessaggiFull {
+  public ID = 0;
+  public nomepg = '';
+  public Ora = '';
+  public Testo = '';
+  public Nomedestinatario = '';
+}
+
 
 @Service()
 export class Backend {
@@ -190,5 +198,9 @@ export class Backend {
 
   getlogscan() {
     return this.http.get('https://www.roma-by-night.it/ICU/getlogscan.php');
+  }
+
+  getMessaggiFull() {
+    return this.http.get(`https://www.roma-by-night.it/ICU/getmessaggifull.php`);
   }
 }

@@ -18,4 +18,14 @@ describe('Prestampa', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should mark the master checkbox indeterminate for a partial selection', () => {
+    component.righe = [
+      { idoggetto: 1, nomeoggetto: 'Primo', selezionato: true, quantita: 1 },
+      { idoggetto: 2, nomeoggetto: 'Secondo', selezionato: false, quantita: 1 },
+    ];
+
+    expect(component.selezioneIndeterminata).toBe(true);
+    expect(component.tuttiSelezionati).toBe(false);
+  });
 });

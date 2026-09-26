@@ -32,6 +32,11 @@ export const routes: Routes = [
 			import('./logscan/logscan').then(({ Logscan }) => Logscan),
 	},
 	{
+		path: 'messaggifull',
+		loadComponent: () =>
+			import('./messaggifull/messaggifull').then(({ Messaggifull }) => Messaggifull),
+	},
+	{
 		path: '',
 		pathMatch: 'full',
 		redirectTo: 'main',

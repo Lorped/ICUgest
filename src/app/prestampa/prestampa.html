@@ -20,7 +20,12 @@
 				<thead>
 					<tr>
 						<th style="text-align: left; width: 10%">
-							<mat-checkbox [checked]="tuttiSelezionati" (change)="toggleSelezionaTutti()"> </mat-checkbox>
+							<mat-checkbox
+								[checked]="tuttiSelezionati"
+								[indeterminate]="selezioneIndeterminata"
+								(change)="toggleSelezionaTutti()"
+								aria-label="Seleziona tutti gli oggetti">
+							</mat-checkbox>Seleziona
 						</th>
 						<th style="text-align: left; width: 10%">ID</th>
 						<th style="text-align: left; width: 60%">Nome oggetto</th>

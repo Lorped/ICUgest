@@ -1,0 +1,50 @@
+<div class="container" >
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Messaggi Scambiati
+      </mat-card-title>
+    </mat-card-header>
+      
+    <mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <table mat-table [dataSource]="dataSource" matSort >
+
+            <ng-container matColumnDef="ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Messaggio</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.ID}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Ora">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ora Invio</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.Ora}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nomepg">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Mittente</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.nomepg}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Testo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Testo</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.Testo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Nomedestinatario">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Destinatario</th>
+                <td mat-cell *matCellDef="let obj"> {{obj.Nomedestinatario}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
