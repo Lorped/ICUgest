@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Backend, Oggetto, Condizione } from '../backend';
 import { inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -47,6 +47,10 @@ interface RigaEfetto {
   adddisciplina: string;
 }
 
+interface ListaOggetti {
+  oggetti: Oggetto[];
+}
+
 
 type Riga = | RigaBase | RigaCondizione| RigaCondizione2 | RigaRisposta | RigaPaired | RigaEfetto;
 
@@ -56,7 +60,7 @@ type Riga = | RigaBase | RigaCondizione| RigaCondizione2 | RigaRisposta | RigaPa
   styleUrl: './oggetti.scss',
   templateUrl: './oggetti.html',
 })
-export class Oggetti {
+export class Oggetti implements OnInit {
   listaoggetti: Oggetto[] = [];
   displayedColumns: string[] = ['IDoggetto', 'Barcode', 'Nomeoggetto', 'Descrizione', 'Fissomobile', 'Incremento', 'Cancella'];
   detailColumns: string[] = ['Dummy', 'Tipocond', 'Valcond', 'descrX'];
@@ -82,11 +86,9 @@ export class Oggetti {
   private cdr = inject(ChangeDetectorRef);
   private route = inject(Router);
 
-  constructor() {}
-
   ngOnInit() {
-    this.backend.listoggetti().subscribe(
-      (data: any) => {
+    this.backend.listoggetti<ListaOggetti>().subscribe(
+      (data: ListaOggetti) => {
         this.listaoggetti = data.oggetti;
         this.datasource.data = this.creaRighe(this.listaoggetti);
         console.log(this.datasource.data);
@@ -144,15 +146,15 @@ export class Oggetti {
 
   cancellaoggetto(IDoggetto: number) {
     this.backend.cancellaoggetto(IDoggetto).subscribe(
-      (data: any) => {
-        console.log(data);
+      () => {
+        //console.log(data);
         this.ngOnInit(); // Refresh the list after deleting
       }
     );
   }
   aggiungioggetto() {
     this.backend.addoggetto(this.newnomeoggetto, this.newdescrizione, this.newfissomobile).subscribe(
-      (data: any) => {
+      () => {
         this.newnomeoggetto = '';
         this.newdescrizione = '';
         this.newfissomobile = 'F';
@@ -161,7 +163,7 @@ export class Oggetti {
     );
   }
 
-  modifica(IDoggetto: number, item: Oggetto) {
+  modifica(IDoggetto: number) {
     this.route.navigate(['/cambiaoggetto', IDoggetto]);
   }
   

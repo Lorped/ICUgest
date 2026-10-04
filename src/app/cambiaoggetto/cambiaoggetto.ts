@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Clan, Societa, Dominio, Disciplina, Oggetto, Skill, Subskill, Backend, Otherskill, Unpaired } from '../backend';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
@@ -12,7 +12,22 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ChangeDetectorRef } from '@angular/core';
 
+export interface GetCondizioni {
+  clan: Clan[];
+  societa: Societa[];
+  domini: Dominio[];
+  discipline: Disciplina[];
+  skill: Skill[];
+  otherskill: Otherskill[];
+  attributi: Otherskill[];
+}
 
+export interface GetUnpaired {
+  unpaired: Unpaired[];
+}
+export interface GetOggetto {
+  oggetto: Oggetto;
+}
 
 
 
@@ -34,7 +49,7 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './cambiaoggetto.scss',
   templateUrl: './cambiaoggetto.html',
 })
-export class Cambiaoggetto {
+export class Cambiaoggetto implements OnInit {
   readonly IDoggetto = Number(inject(ActivatedRoute).snapshot.paramMap.get('IDoggetto'));
 
 
@@ -109,30 +124,30 @@ export class Cambiaoggetto {
     {id: 'N', nome: 'Se NO'}
   ];
 
-  unpaired: Array<Unpaired> = [];
+  unpaired: Unpaired[] = [];
   tabpaired = '';
   descrizionePaired = '';
 
-  subskill: Array<Subskill> = [];
+  subskill: Subskill[] = [];
 
 
 
   oggetto = new Oggetto();
 
-  clan: Array<Clan> = [];
-  societa: Array<Societa> = [];
-  domini: Array<Dominio> = [];
-  discipline: Array<Disciplina> = [];
-  skill: Array<Skill> = [];
-  otherskill: Array<Otherskill> = [];
-  attributi: Array<Otherskill> = [];
+  clan: Clan[] = [];
+  societa: Societa[] = [];
+  domini: Dominio[] = [];
+  discipline: Disciplina[] = [];
+  skill: Skill[] = [];
+  otherskill: Otherskill[] = [];
+  attributi: Otherskill[] = [];
 
   private backend = inject(Backend);
   private cdr = inject(ChangeDetectorRef);
   private oggettoRequest = 0;
 
   constructor() {
-    this.backend.getcondizioni().subscribe((data: any) => {
+    this.backend.getcondizioni<GetCondizioni>().subscribe((data) => {
       this.clan = data.clan;
       this.societa = data.societa;
       this.domini = data.domini;
@@ -147,11 +162,9 @@ export class Cambiaoggetto {
   }
 
   ngOnInit() {
-    
-
     this.caricaOggetto();
-    this.backend.getunpaired(this.IDoggetto).subscribe(
-      (data: any) => {
+    this.backend.getunpaired<GetUnpaired>(this.IDoggetto).subscribe(
+      (data) => {
         this.unpaired = data.unpaired;
         this.cdr.detectChanges();
       }
@@ -201,12 +214,12 @@ this.tabcondA = '';   // Attributo
 
     const request = ++this.oggettoRequest;
 
-    this.backend.getoggetto(this.IDoggetto, cacheBust).subscribe((data: any) => {
-      if (request !== this.oggettoRequest || !data.oggetti?.length) {
+    this.backend.getoggetto<GetOggetto>(this.IDoggetto, cacheBust).subscribe((data) => {
+      if (request !== this.oggettoRequest || !data.oggetto) {
         return;
       }
 
-      this.oggetto = data.oggetti[0];
+      this.oggetto = data.oggetto;
       this.nomeoggettoIniziale = this.oggetto.nomeoggetto;
       this.descrizioneIniziale = this.oggetto.descrizione;
       this.cdr.detectChanges();

@@ -33,7 +33,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@for (riga of righe; track riga.idoggetto) {
+					@for (riga of righe; track riga.IDoggetto) {
 						<tr>
 							<td>
 								<mat-checkbox
@@ -41,7 +41,7 @@
 									(change)="aggiornaSelezione()">
 								</mat-checkbox>
 							</td>
-							<td>{{ riga.idoggetto }}</td>
+							<td>{{ riga.IDoggetto }}</td>
 							<td>{{ riga.nomeoggetto }}</td>
 							<td>
 								<mat-form-field appearance="fill" style="width: 80px;">

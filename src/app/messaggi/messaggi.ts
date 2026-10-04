@@ -32,7 +32,7 @@ export class Messaggi implements OnInit, AfterViewInit {
 
   private backend = inject(Backend);
   private cdr = inject(ChangeDetectorRef);
-  currentSortColumn: string = '';
+  currentSortColumn = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
 
@@ -42,7 +42,7 @@ export class Messaggi implements OnInit, AfterViewInit {
   selection = new SelectionModel<PersonaggiList>(true, []);
 
 
-  constructor() {}
+
 
   ngOnInit() {
     this.backend.listPersonaggi().subscribe(
@@ -68,7 +68,7 @@ export class Messaggi implements OnInit, AfterViewInit {
     // Logica per inviare il messaggio
     const userIdsSelezionati = this.selection.selected.map(obj => obj.user_id);
     this.backend.inviaMessaggio(messaggio, userIdsSelezionati).subscribe(
-      (response: any) => {
+      () => {
         //console.log('Risposta dal backend:', response);
         //console.log('Messaggio inviato', messaggio);
         form.resetForm();

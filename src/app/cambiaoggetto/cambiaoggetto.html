@@ -106,7 +106,7 @@
             </td>
             </tr>
           }
-          @if (oggetto.ifdomanda==1) {
+          @if (oggetto.ifdomanda===1) {
           <tr>
             <td >
                 &nbsp;
@@ -134,7 +134,7 @@
           @for (cond of oggetto.condizioni2; track cond) {
           <tr>
             <td >
-                @if (cond.risp=='S') { <mat-icon fontIcon="thumb_up" class="green-icon"></mat-icon>   } @else if (cond.risp=='N') { <mat-icon fontIcon="thumb_down" color="warn"></mat-icon>  } @else { &nbsp; }
+                @if (cond.risp==='S') { <mat-icon fontIcon="thumb_up" class="green-icon"></mat-icon>   } @else if (cond.risp==='N') { <mat-icon fontIcon="thumb_down" color="warn"></mat-icon>  } @else { &nbsp; }
             </td>
             <td >
                 {{cond.tipocond}}
@@ -154,7 +154,7 @@
             </tr>
           }
 
-          @if (oggetto.paired.idpaired!=0) {
+          @if (oggetto.paired.idpaired!==0) {
           <tr>
             <td >
                 &nbsp;
@@ -229,7 +229,7 @@
               &nbsp;
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoA" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -249,7 +249,7 @@
               &nbsp;
             </td>
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('A')" [disabled]="  descrizioneA=='' || tabcondA=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('A')" [disabled]="  descrizioneA==='' || tabcondA==='' ">Aggiungi</button>
             </td>
           </tr>
 
@@ -273,7 +273,7 @@
               </mat-form-field>
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoS" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -293,7 +293,7 @@
               &nbsp;
             </td>            
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('S')" [disabled]=" !(valcondS.errors===null) || descrizioneS=='' || tabcondS=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('S')" [disabled]=" !(valcondS.errors===null) || descrizioneS==='' || tabcondS==='' ">Aggiungi</button>
             </td>
           </tr>
 
@@ -310,7 +310,7 @@
                   }
                 </mat-select>
               </mat-form-field>
-              @if (subskill.length==0) {
+              @if (subskill.length===0) {
                 <span color="warn">Seleziona prima uno skill generico</span>
               } 
             </td>
@@ -320,7 +320,7 @@
               </mat-form-field>
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoSS" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -340,7 +340,7 @@
               &nbsp;
             </td>            
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('SS')" [disabled]=" !(valcondSS.errors===null) || descrizioneSS=='' || tabcondSS=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('SS')" [disabled]=" !(valcondSS.errors===null) || descrizioneSS==='' || tabcondSS==='' ">Aggiungi</button>
             </td>
           </tr>
           <tr>
@@ -363,7 +363,7 @@
               </mat-form-field>
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoO" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -383,7 +383,7 @@
               &nbsp;
             </td>              
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('O')" [disabled]=" !(valcondO.errors===null) || descrizioneO=='' || tabcondO=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('O')" [disabled]=" !(valcondO.errors===null) || descrizioneO==='' || tabcondO==='' ">Aggiungi</button>
             </td>
           </tr>
 
@@ -407,7 +407,7 @@
               </mat-form-field>
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoD" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -427,7 +427,7 @@
               &nbsp;
             </td>            
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('D')" [disabled]=" !(valcondD.errors===null) || descrizioneD=='' || tabcondD=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('D')" [disabled]=" !(valcondD.errors===null) || descrizioneD==='' || tabcondD==='' ">Aggiungi</button>
             </td>
           </tr>
 
@@ -449,7 +449,7 @@
               &nbsp;
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoY" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -469,7 +469,7 @@
               &nbsp;
             </td>            
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('Y')" [disabled]="  descrizioneY=='' || tabcondY=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('Y')" [disabled]="  descrizioneY==='' || tabcondY==='' ">Aggiungi</button>
             </td>
           </tr>
 
@@ -492,7 +492,7 @@
               &nbsp;
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoX" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -512,7 +512,7 @@
               &nbsp;
             </td>            
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('X')" [disabled]="  descrizioneX=='' || tabcondX=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('X')" [disabled]="  descrizioneX==='' || tabcondX==='' ">Aggiungi</button>
             </td>
           </tr>          
 
@@ -535,7 +535,7 @@
               &nbsp;
             </td>
             <td >
-              @if (oggetto.ifdomanda==1) {
+              @if (oggetto.ifdomanda===1) {
                 <mat-radio-group [(ngModel)]="quandoC" >
                   @for (tipo of quando; track tipo) {
                     <mat-radio-button  class="example-radio-button"  [value]="tipo.id">
@@ -555,13 +555,13 @@
               &nbsp;
             </td>
             <td >
-              <button  mat-raised-button color="primary" (click)="addcond('C')" [disabled]="  descrizioneC=='' || tabcondC=='' ">Aggiungi</button>
+              <button  mat-raised-button color="primary" (click)="addcond('C')" [disabled]="  descrizioneC==='' || tabcondC==='' ">Aggiungi</button>
             </td>
           </tr>          
 
           <!---->
 
-          @if (oggetto.paired.idpaired==0) {
+          @if (oggetto.paired.idpaired===0) {
           <tr>
             <td >
                 &nbsp;
@@ -592,7 +592,7 @@
                 &nbsp;
             </td>
             <td >
-                <button  mat-raised-button color="primary" (click)="addpaired()" [disabled]="  descrizionePaired=='' || tabpaired=='' ">Aggiungi</button>
+                <button  mat-raised-button color="primary" (click)="addpaired()" [disabled]="  descrizionePaired==='' || tabpaired==='' ">Aggiungi</button>
             </td>
             </tr>
           }
@@ -622,7 +622,7 @@
             </tr>            
 
 
-          @if (oggetto.ifdomanda==0) {
+          @if (oggetto.ifdomanda===0) {
           <tr>
             <td>&nbsp;</td>
             <td>
@@ -646,7 +646,7 @@
             </td>
             <td>&nbsp;</td>
             <td >
-                <button  mat-raised-button color="primary" (click)="adddomanda()" [disabled]=" domanda=='' || rispNo=='' || rispSi=='' ">Aggiungi</button>
+                <button  mat-raised-button color="primary" (click)="adddomanda()" [disabled]=" domanda==='' || rispNo==='' || rispSi==='' ">Aggiungi</button>
             </td>
           </tr>
           }
@@ -700,7 +700,7 @@
             </td>
             <td>&nbsp;</td>
             <td >
-                <button  mat-raised-button color="primary" (click)="addincremento()" [disabled]="  newincremento=='' ">Aggiungi</button>
+                <button  mat-raised-button color="primary" (click)="addincremento()" [disabled]="  newincremento==='' ">Aggiungi</button>
             </td>
               
             }

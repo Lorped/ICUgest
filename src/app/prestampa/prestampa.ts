@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,13 +7,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Backend, Oggetto } from '../backend';
+import { Backend } from '../backend';
 
 interface RigaPrestampa {
-  idoggetto: number;
+  IDoggetto: number;
   nomeoggetto: string;
   selezionato: boolean;
   quantita: number;
+}
+interface ArrayPrestampa {
+  oggetti: RigaPrestampa[];
 }
 
 @Component({
@@ -22,15 +25,15 @@ interface RigaPrestampa {
   styleUrl: './prestampa.scss',
   templateUrl: './prestampa.html',
 })
-export class Prestampa {
+export class Prestampa implements OnInit {
   righe: RigaPrestampa[] = [];
   private readonly backend = inject(Backend);
   private readonly cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.backend.listoggetti().subscribe((data: { oggetti: Oggetto[] }) => {
+    this.backend.listoggetti<ArrayPrestampa>().subscribe((data) => {
       this.righe = data.oggetti.map((oggetto) => ({
-        idoggetto: oggetto.IDoggetto,
+        IDoggetto: oggetto.IDoggetto,
         nomeoggetto: oggetto.nomeoggetto,
         selezionato: false,
         quantita: 1,
@@ -69,7 +72,7 @@ export class Prestampa {
   stampa(): void {
     const righeSelezionate = this.righe
       .filter((riga) => riga.selezionato)
-      .map((riga) => ({ IDoggetto: riga.idoggetto, quantita: Number(riga.quantita) }));
+      .map((riga) => ({ IDoggetto: riga.IDoggetto, quantita: Number(riga.quantita) }));
 
     this.backend.prestampa(righeSelezionate).subscribe(() => {
       const finestra = window.open('https://www.roma-by-night.it/ICU/stampaoggetti.php', '_blank');

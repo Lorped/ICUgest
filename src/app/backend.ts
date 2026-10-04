@@ -79,11 +79,11 @@ export class Unpaired {
 }
 
 export class PersonaggiList {
-  user_id: number = 0;
-  nomepg: string = '';  //nome del personaggio
-  nomeclan: string = '';  //nome del clan DA LEFT JOIN
-  nomesocieta: string = '';  //nome della società DA LEFT JOIN
-  nomedominio: string = '';  //nome del dominio DA LEFT JOIN
+  user_id = 0;
+  nomepg = '';  //nome del personaggio
+  nomeclan = '';  //nome del clan DA LEFT JOIN
+  nomesocieta = '';  //nome della società DA LEFT JOIN
+  nomedominio = '';  //nome del dominio DA LEFT JOIN
 }
 
 export class LogscanItem {  
@@ -108,17 +108,17 @@ export class MessaggiFull {
 @Service()
 export class Backend {
     private http = inject(HttpClient);
-  constructor() {}
 
-  listoggetti() {
-    return this.http.get<{ oggetti: Oggetto[] }>('https://www.roma-by-night.it/ICU/listoggetti.php' );
+
+  listoggetti<T>() {
+    return this.http.get<T>('https://www.roma-by-night.it/ICU/listoggetti.php' );
   }
 
   prestampa(righe: { IDoggetto: number; quantita: number }[]) {
     return this.http.post('https://www.roma-by-night.it/ICU/prestampa.php', righe);
   }
-  getcondizioni() {
-    return this.http.get('https://www.roma-by-night.it/ICU/getcondizioni.php' );
+  getcondizioni<T>() {
+    return this.http.get<T>('https://www.roma-by-night.it/ICU/getcondizioni.php' );
   }
 
   addoggetto(nomeoggetto: string, descrizione: string, fissomobile: string) {
@@ -130,13 +130,13 @@ export class Backend {
     const oggetto = { IDoggetto };
     return this.http.post('https://www.roma-by-night.it/ICU/cancellaoggetto.php', oggetto);
   }
-  getoggetto(IDoggetto: number, cacheBust = false) {
+  getoggetto<T>(IDoggetto: number, cacheBust = false) {
     const refresh = cacheBust ? `&refresh=${Date.now()}` : '';
-    return this.http.get(`https://www.roma-by-night.it/ICU/getoggetto.php?IDoggetto=${IDoggetto}${refresh}`);
+    return this.http.get<T>(`https://www.roma-by-night.it/ICU/getoggetto.php?IDoggetto=${IDoggetto}${refresh}`);
   }
 
-  getunpaired(IDoggetto: number) {
-    return this.http.get(`https://www.roma-by-night.it/ICU/getunpaired.php?IDoggetto=${IDoggetto}`);
+  getunpaired<T>(IDoggetto: number) {
+    return this.http.get<T>(`https://www.roma-by-night.it/ICU/getunpaired.php?IDoggetto=${IDoggetto}`);
   }
 
   addcondizione(IDoggetto: number, tipocond: string, tabcond: number, valcond: number, descrX: string, risp: string) {
