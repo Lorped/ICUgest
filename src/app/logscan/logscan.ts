@@ -11,6 +11,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon'; 
 
 
+export interface LogscanData {
+  logscan: LogscanItem[];
+}
+
 @Component({
   imports: [ MatTableModule, MatSortModule, MatDividerModule, MatCardModule, MatIconModule ],
   selector: 'app-logscan',
@@ -34,8 +38,8 @@ export class Logscan implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.backend.getlogscan().subscribe(
-      (data: any) => {
+    this.backend.getlogscan<LogscanData>().subscribe(
+      (data: LogscanData) => {
         this.logscan = data.logscan;
         this.dataSource.data = this.logscan;
         this.cdr.detectChanges();

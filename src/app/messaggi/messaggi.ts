@@ -16,6 +16,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { AfterViewInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 
+export interface PersonaggiListData {
+  personaggi: PersonaggiList[];
+}
 
 @Component({
   imports: [CommonModule, MatCardModule, MatDividerModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatTableModule, MatCheckboxModule, MatSortModule, MatGridListModule],
@@ -45,8 +48,8 @@ export class Messaggi implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    this.backend.listPersonaggi().subscribe(
-      (data: any) => {
+    this.backend.listPersonaggi<PersonaggiListData>().subscribe(
+      (data: PersonaggiListData) => {
         this.listapersonaggi = data.personaggi  ;
         this.dataSource.data = this.listapersonaggi;
         this.cdr.detectChanges();

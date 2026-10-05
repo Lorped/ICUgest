@@ -10,6 +10,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card'; 
 //import { MatIconModule } from '@angular/material/icon'; 
 
+interface MessaggiFullData {
+  messaggi: MessaggiFull[];
+}
+
 @Component({
   imports: [ MatTableModule, MatSortModule, MatDividerModule, MatCardModule],
   selector: 'app-messaggifull',
@@ -31,8 +35,8 @@ export class Messaggifull implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.backend.getMessaggiFull().subscribe(
-      (data: any) => {
+    this.backend.getMessaggiFull<MessaggiFullData>().subscribe(
+      (data: MessaggiFullData) => {
         this.messaggifull = data.messaggi;
         this.dataSource.data = this.messaggifull;
         this.cdr.detectChanges();

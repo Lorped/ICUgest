@@ -183,8 +183,8 @@ export class Backend {
     return this.http.post('https://www.roma-by-night.it/ICU/cancellaeffetto.php', oggetto);
   }
 
-  listPersonaggi() {
-    return this.http.get<PersonaggiList[]>('https://www.roma-by-night.it/ICU/listutenti.php');
+  listPersonaggi<T>() {
+    return this.http.get<T>('https://www.roma-by-night.it/ICU/listutenti.php');
   }
 
   inviaMessaggio(messaggio: string, destinatari: number[]) {
@@ -196,11 +196,11 @@ export class Backend {
     return this.http.get(`https://www.roma-by-night.it/ICU/savePushToken.php?user_id=${user_id}&token=${encodeURIComponent(token)}`);
   }
 
-  getlogscan() {
-    return this.http.get('https://www.roma-by-night.it/ICU/getlogscan.php');
+  getlogscan<T>() {
+    return this.http.get<T>('https://www.roma-by-night.it/ICU/getlogscan.php');
   }
 
-  getMessaggiFull() {
-    return this.http.get(`https://www.roma-by-night.it/ICU/getmessaggifull.php`);
+  getMessaggiFull<T>() {
+    return this.http.get<T>(`https://www.roma-by-night.it/ICU/getmessaggifull.php`);
   }
 }
