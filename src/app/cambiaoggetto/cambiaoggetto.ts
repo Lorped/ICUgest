@@ -130,7 +130,9 @@ export class Cambiaoggetto implements OnInit {
 
   subskill: Subskill[] = [];
 
-
+  enigma = '';
+  soluzione = '';
+  esito = '';
 
   oggetto = new Oggetto();
 
@@ -147,33 +149,35 @@ export class Cambiaoggetto implements OnInit {
   private oggettoRequest = 0;
 
   constructor() {
-    this.backend.getcondizioni<GetCondizioni>().subscribe((data) => {
-      this.clan = data.clan;
-      this.societa = data.societa;
-      this.domini = data.domini;
-      this.discipline = data.discipline;
-      this.skill = data.skill;
-      this.otherskill = data.otherskill;
-      this.attributi = data.attributi;
-      console.log(data);
-      this.cdr.detectChanges();
+    this.backend.getcondizioni<GetCondizioni>().subscribe({
+      next: (data) => {
+        this.clan = data.clan;
+        this.societa = data.societa;
+        this.domini = data.domini;
+        this.discipline = data.discipline;
+        this.skill = data.skill;
+        this.otherskill = data.otherskill;
+        this.attributi = data.attributi;
+        console.log(data);
+        this.cdr.detectChanges();
+      }
     });
 
   }
 
   ngOnInit() {
     this.caricaOggetto();
-    this.backend.getunpaired<GetUnpaired>(this.IDoggetto).subscribe(
-      (data) => {
+    this.backend.getunpaired<GetUnpaired>(this.IDoggetto).subscribe({
+      next: (data) => {
         this.unpaired = data.unpaired;
         this.cdr.detectChanges();
       }
-    );
+    });
     
   }
 
   private caricaOggetto(cacheBust = false) {
-this.tabcondA = '';   // Attributo
+    this.tabcondA = '';   // Attributo
     this.tabcondS = '';
     this.tabcondSS = '';
     this.tabcondO = '';  // Otherskill
@@ -214,15 +218,16 @@ this.tabcondA = '';   // Attributo
 
     const request = ++this.oggettoRequest;
 
-    this.backend.getoggetto<GetOggetto>(this.IDoggetto, cacheBust).subscribe((data) => {
-      if (request !== this.oggettoRequest || !data.oggetto) {
-        return;
+    this.backend.getoggetto<GetOggetto>(this.IDoggetto, cacheBust).subscribe({
+      next: (data) => {
+        if (request !== this.oggettoRequest || !data.oggetto) {
+          return;
+        }
+        this.oggetto = data.oggetto;
+        this.nomeoggettoIniziale = this.oggetto.nomeoggetto;
+        this.descrizioneIniziale = this.oggetto.descrizione;
+        this.cdr.detectChanges();
       }
-
-      this.oggetto = data.oggetto;
-      this.nomeoggettoIniziale = this.oggetto.nomeoggetto;
-      this.descrizioneIniziale = this.oggetto.descrizione;
-      this.cdr.detectChanges();
     });
   }
 
@@ -292,38 +297,38 @@ this.tabcondA = '';   // Attributo
         quando = this.quandoC;   
         break;
     }
-    this.backend.addcondizione(this.oggetto.IDoggetto, tipo, Number(tabcond), Number(valcond), descrizione, quando).subscribe(
-      response => {
+    this.backend.addcondizione(this.oggetto.IDoggetto, tipo, Number(tabcond), Number(valcond), descrizione, quando).subscribe({
+      next: (response) => {
         console.log(`Condition added successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error adding condition: `, error);
       }
-    );
+    });
 
   }
   addpaired() {
-    this.backend.addpaired(this.oggetto.IDoggetto, Number(this.tabpaired), this.descrizionePaired).subscribe(
-      response => {
+    this.backend.addpaired(this.oggetto.IDoggetto, Number(this.tabpaired), this.descrizionePaired).subscribe({
+      next: (response) => {
         console.log(`Paired object added successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error adding paired object: `, error);
       }
-    );
+    });
   }
   adddomanda() {
-    this.backend.addDomanda(this.oggetto.IDoggetto, this.domanda, this.rispSi, this.rispNo).subscribe(
-      response => {
+    this.backend.addDomanda(this.oggetto.IDoggetto, this.domanda, this.rispSi, this.rispNo).subscribe({
+      next: (response) => {
         console.log(`Domanda added successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error adding domanda: `, error);
       }
-    );
+    });
   }
   aggiornaogg(IDoggetto: number) {
     console.log(`Updating object ${IDoggetto}`);
@@ -335,51 +340,51 @@ this.tabcondA = '';   // Attributo
   }
 
   cancellacond(idcondizione: number) {
-    this.backend.cancellacondizione(idcondizione).subscribe(
-      response => {
+    this.backend.cancellacondizione(idcondizione).subscribe({
+      next: (response) => {
         console.log(`Condition cancelled successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error cancelling condition: `, error);
       }
-    );
+    });
   }
 
   cancelladomanda() {
-    this.backend.cancelladomanda(this.oggetto.IDoggetto).subscribe(
-      response => {
+    this.backend.cancelladomanda(this.oggetto.IDoggetto).subscribe({
+      next: (response) => {
         console.log(`Domanda cancelled successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error cancelling domanda: `, error);
       }
-    );
+    });
   }
 
   cancellapaired() {
-    this.backend.cancellapaired(this.oggetto.IDoggetto).subscribe(
-      response => {
+    this.backend.cancellapaired(this.oggetto.IDoggetto).subscribe({
+      next: (response) => {
         console.log(`Paired object cancelled successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error cancelling paired object: `, error);
       }
-    );
+    });
   }
 
   cancellaeffetto() {
-    this.backend.cancellaeffetto(this.oggetto.IDoggetto).subscribe(
-      response => {
+    this.backend.cancellaeffetto(this.oggetto.IDoggetto).subscribe({
+      next: (response) => {
         console.log(`Effetto cancelled successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error cancelling effetto: `, error);
       }
-    );
+    });
   }
 
   aggiornasubskill() {
@@ -392,14 +397,39 @@ this.tabcondA = '';   // Attributo
   }
   
   addincremento() {
-    this.backend.addincremento(this.oggetto.IDoggetto, Number(this.newincremento)).subscribe(
-      response => {
+    this.backend.addincremento(this.oggetto.IDoggetto, Number(this.newincremento)).subscribe({
+      next: (response) => {
         console.log(`Incremento added successfully: `, response);
         this.caricaOggetto(true);
       },
-      error => {
+      error: (error) => {
         console.error(`Error adding incremento: `, error);
       }
-    );
+    });
+  }
+  cancellaenigma() {
+    this.backend.cancellaenigma(this.oggetto.IDoggetto).subscribe({
+      next: (response) => {
+        console.log(`Enigma cancelled successfully: `, response);
+        this.caricaOggetto(true);
+      },
+      error: (error) => {
+        console.error(`Error cancelling enigma: `, error);
+      }
+    });
+  }
+  addenigma() {
+    this.backend.addenigma(this.oggetto.IDoggetto, this.enigma, this.soluzione, this.esito).subscribe({
+      next: (response) => {
+        console.log(`Enigma added successfully: `, response);
+        this.enigma = '';
+        this.soluzione = '';
+        this.esito = '';
+        this.caricaOggetto(true);
+      },
+      error: (error) => {
+        console.error(`Error adding enigma: `, error);
+      }
+    });
   }
 }

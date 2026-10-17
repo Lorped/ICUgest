@@ -51,8 +51,16 @@ interface ListaOggetti {
   oggetti: Oggetto[];
 }
 
+interface RigaEnigma {
+  tipo: 'enigma';
+  parentID: number;
+  enigma: string;
+  soluzione: string;
+  premio: string;
+}
 
-type Riga = | RigaBase | RigaCondizione| RigaCondizione2 | RigaRisposta | RigaPaired | RigaEfetto;
+
+type Riga = | RigaBase | RigaCondizione| RigaCondizione2 | RigaRisposta | RigaPaired | RigaEfetto | RigaEnigma;
 
 @Component({
   imports: [FormsModule, MatInputModule, MatCardModule, MatButtonModule, MatRadioModule, MatDividerModule, MatTableModule, MatGridListModule, MatIconModule ],
@@ -68,7 +76,7 @@ export class Oggetti implements OnInit {
   rispostaColumns: string[] = ['Dummy', 'Domanda', 'Si', 'No'];
   pairedColumns: string[] = ['Dummy', 'OggettoPaired', 'DescrizionePaired'];
   effettoColumns: string[] = ['Dummy', 'Dummy', 'AddDisciplina'];
-  
+  enigmaColumns: string[] = ['Dummy', 'Enigma', 'Soluzione', 'Premio'];
 
   datasource = new MatTableDataSource<Riga>( this.creaRighe(this.listaoggetti) ); 
 
@@ -121,6 +129,13 @@ export class Oggetti implements OnInit {
         si: oggetto.r1,
         no: oggetto.r2
       }] : []),  
+      ...((oggetto.enigma ?? '').trim() !== '' ? [{
+        tipo: 'enigma' as const,
+        parentID: oggetto.IDoggetto,
+        enigma: oggetto.enigma,
+        soluzione: oggetto.soluzione,
+        premio: oggetto.premio
+      }] : []),  
       ...oggetto.condizioni2.map((condizioni): Riga => ({
         tipo: 'condizione2',
         parentID: oggetto.IDoggetto,
@@ -142,6 +157,7 @@ export class Oggetti implements OnInit {
   isRisposta = (_index: number, row: Riga) => row.tipo === 'risposta';
   isPaired = (_index: number, row: Riga) => row.tipo === 'paired';
   isEffetto = (_index: number, row: Riga) => row.tipo === 'effetto';
+  isEnigma = (_index: number, row: Riga) => row.tipo === 'enigma';
 
 
   cancellaoggetto(IDoggetto: number) {

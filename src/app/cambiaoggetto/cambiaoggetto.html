@@ -130,6 +130,30 @@
             </td>
             </tr>
           }
+          @if (oggetto.enigma && oggetto.enigma !== '') {
+          <tr>
+            <td >
+                &nbsp;
+            </td>
+            <td >
+                &nbsp;
+            </td>
+            <td >
+              <mat-icon fontIcon="search" color="warn"></mat-icon>
+              {{oggetto.enigma}}
+            </td>
+            <td style="text-align: left;">
+                {{oggetto.soluzione}}<br>
+                <mat-icon fontIcon="arrow_forward" color="primary"></mat-icon> {{oggetto.premio}}<br>
+            </td>
+            <td >
+                &nbsp;
+            </td>
+            <td >
+                <button  mat-raised-button color="warn" (click)="cancellaenigma()">Cancella</button>
+            </td>
+            </tr>
+          }          
 
           @for (cond of oggetto.condizioni2; track cond) {
           <tr>
@@ -621,6 +645,35 @@
               </th>
             </tr>            
 
+
+          @if (!oggetto.enigma || oggetto.enigma==='') {
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
+                  <mat-label>Enigma</mat-label>
+                  <textarea matInput [(ngModel)]="enigma"></textarea>
+                </mat-form-field>
+            </td>
+            <td>&nbsp;</td>
+            <td >
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
+                  <mat-label>Soluzione:</mat-label>
+                  <textarea matInput [(ngModel)]="soluzione"></textarea>
+                </mat-form-field>
+            </td>
+            <td >
+                <mat-form-field appearance="fill" style="size: 100%; display: block;">
+                  <mat-label>Esito:</mat-label>
+                  <textarea matInput [(ngModel)]="esito"></textarea>
+                </mat-form-field>
+            </td>
+            <td>&nbsp;</td>
+            <td >
+                <button  mat-raised-button color="primary" (click)="addenigma()" [disabled]=" enigma==='' || soluzione==='' || esito==='' ">Aggiungi</button>
+            </td>
+          </tr>
+          }
 
           @if (oggetto.ifdomanda===0) {
           <tr>

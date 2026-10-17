@@ -51,6 +51,9 @@ export class Oggetto {
     public condizioni: Condizione[] = [];
     public condizioni2: Condizione[] = [];
     public paired = new Paired();
+    public enigma = '';
+    public soluzione = '';
+    public premio = '';
 }
 
 export class Societa {
@@ -202,5 +205,15 @@ export class Backend {
 
   getMessaggiFull<T>() {
     return this.http.get<T>(`https://www.roma-by-night.it/ICU/getmessaggifull.php`);
+  }
+
+  addenigma(IDoggetto: number, enigma: string, soluzione: string, premio: string) {
+    const enigmaData = { IDoggetto, enigma, soluzione, premio };
+    return this.http.post('https://www.roma-by-night.it/ICU/addenigma.php', enigmaData);
+  }
+
+  cancellaenigma(IDoggetto: number) {
+    const oggetto = { IDoggetto };
+    return this.http.post('https://www.roma-by-night.it/ICU/cancellaenigma.php', oggetto);
   }
 }
